@@ -2,9 +2,12 @@
 
 
 """Import statement go there"""
+
+from defer import return_value
 from pygame.locals import *
 import pygame
 import sys
+import Ranking
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __license__ = "GPL"
@@ -18,101 +21,114 @@ class Menu:
         pygame.init()
         pygame.mixer.init()
         self.running = True
+        self.to_another_screen = 0
 
         self.size = width, height = 1920, 1080
 
         self.screen = pygame.display.set_mode(self.size)
 
         self.background = pygame.image.load("assets/background.jpg")
-        self.fontBtn = pygame.font.Font("assets/Granjon.otf", 120)
-        self.colorBtnText = (81, 73, 41)
-        self.colorBtnBg = (8, 29, 30)
-        self.colorBtnTextTrigger = (113, 12, 26)
+        self.font_btn = pygame.font.Font("assets/Granjon.otf", 120)
+        self.color_btn_text = (81, 73, 41)
+        self.color_btn_bg = (8, 29, 30)
+        self.color_btn_text_trigger = (113, 12, 26)
 
-        self.textPlay = self.fontBtn.render('PLAY', True, self.colorBtnText)
-        self.textLoad = self.fontBtn.render('LOAD', True, self.colorBtnText)
-        self.textRanking = self.fontBtn.render(
-            'RANKING', True, self.colorBtnText)
-        self.textExit = self.fontBtn.render('EXIT', True, self.colorBtnText)
+        self.text_play = self.font_btn.render(
+            'PLAY', True, self.color_btn_text)
+        self.text_load = self.font_btn.render(
+            'LOAD', True, self.color_btn_text)
+        self.text_ranking = self.font_btn.render(
+            'RANKING', True, self.color_btn_text)
+        self.text_exit = self.font_btn.render(
+            'EXIT', True, self.color_btn_text)
 
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
 
-    def loadAndPlayMusic(self):
-        pygame.mixer.music.load("assets/bg_music.mp3")
+    def load_and_play_music(self):
+        pygame.mixer.music.load("assets/menu_music.mp3")
         pygame.mixer.music.play(-1)
 
-    def initRect(self):
+    def init_rect(self):
         self.rectPlay = Rect(self.width/3 + 125, 120, 300, 150)
         self.rectLoad = Rect(self.width/3 + 125, 320, 300, 150)
         self.rectRanking = Rect(self.width/3, 520, 600, 150)
         self.rectExit = Rect(self.width/3 + 125, 720, 300, 150)
 
-    def drawRect(self):
-        pygame.draw.rect(self.screen, self.colorBtnBg, self.rectPlay, 1)
-        pygame.draw.rect(self.screen, self.colorBtnBg, self.rectLoad, 1)
-        pygame.draw.rect(self.screen, self.colorBtnBg, self.rectRanking, 1)
-        pygame.draw.rect(self.screen, self.colorBtnBg, self.rectExit, 1)
+    def draw_rect(self):
+        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectPlay, 1)
+        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectLoad, 1)
+        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectRanking, 1)
+        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectExit, 1)
 
-    def drawText(self):
-        self.screen.blit(self.textPlay, (self.width/3 + 125, 120))
-        self.screen.blit(self.textLoad, (self.width/3 + 125, 320))
-        self.screen.blit(self.textRanking, (self.width/3, 520))
-        self.screen.blit(self.textExit, (self.width/3 + 125, 720))
+    def draw_text(self):
+        self.screen.blit(self.text_play, (self.width/3 + 125, 120))
+        self.screen.blit(self.text_load, (self.width/3 + 125, 320))
+        self.screen.blit(self.text_ranking, (self.width/3, 520))
+        self.screen.blit(self.text_exit, (self.width/3 + 125, 720))
 
-    def collidePoint(self, mouse):
+    def collide_point(self, mouse):
         if Rect.collidepoint(self.rectPlay, mouse):
-            self.textPlay = self.fontBtn.render(
-                'PLAY', True, self.colorBtnTextTrigger)
+            self.text_play = self.font_btn.render(
+                'PLAY', True, self.color_btn_text_trigger)
         elif Rect.collidepoint(self.rectLoad, mouse):
-            self.textLoad = self.fontBtn.render(
-                'LOAD', True, self.colorBtnTextTrigger)
+            self.text_load = self.font_btn.render(
+                'LOAD', True, self.color_btn_text_trigger)
         elif Rect.collidepoint(self.rectRanking, mouse):
-            self.textRanking = self.fontBtn.render(
-                'RANKING', True, self.colorBtnTextTrigger)
+            self.text_ranking = self.font_btn.render(
+                'RANKING', True, self.color_btn_text_trigger)
         elif Rect.collidepoint(self.rectExit, mouse):
-            self.textExit = self.fontBtn.render(
-                'EXIT', True, self.colorBtnTextTrigger)
+            self.text_exit = self.font_btn.render(
+                'EXIT', True, self.color_btn_text_trigger)
         else:
-            self.textPlay = self.fontBtn.render(
-                'PLAY', True, self.colorBtnText)
-            self.textLoad = self.fontBtn.render(
-                'LOAD', True, self.colorBtnText)
-            self.textRanking = self.fontBtn.render(
-                'RANKING', True, self.colorBtnText)
-            self.textExit = self.fontBtn.render(
-                'EXIT', True, self.colorBtnText)
+            self.text_play = self.font_btn.render(
+                'PLAY', True, self.color_btn_text)
+            self.text_load = self.font_btn.render(
+                'LOAD', True, self.color_btn_text)
+            self.text_ranking = self.font_btn.render(
+                'RANKING', True, self.color_btn_text)
+            self.text_exit = self.font_btn.render(
+                'EXIT', True, self.color_btn_text)
 
-    def eventTrigger(self, mouse):
+    def event_trigger(self, mouse):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                """provisional line, change it when you want to start the game developpement"""
-                if Rect.collidepoint(self.rectExit, mouse) or Rect.collidepoint(self.rectLoad, mouse) or Rect.collidepoint(self.rectRanking, mouse) or Rect.collidepoint(self.rectPlay, mouse):
+                if Rect.collidepoint(self.rectPlay, mouse):
+                    self.to_another_screen = 1
+                elif Rect.collidepoint(self.rectLoad, mouse):
+                    self.to_another_screen = 2
+                elif Rect.collidepoint(self.rectRanking, mouse):
+                    self.to_another_screen = 3
+                elif Rect.collidepoint(self.rectExit, mouse):
                     self.running = False
             if event.type == pygame.QUIT:
                 sys.exit()
 
     def init(self):
-        self.loadAndPlayMusic()
-        self.initRect()
-        self.drawRect()
+        self.load_and_play_music()
+        self.init_rect()
+        self.draw_rect()
 
-    def displayMenu(self):
+    def display_menu(self):
         while self.running:
             mouse = pygame.mouse.get_pos()
             self.screen.blit(self.background, (0, 0))
 
-            self.drawText()
-            self.collidePoint(mouse)
-            self.eventTrigger(mouse)
+            self.draw_text()
+            self.collide_point(mouse)
+            self.event_trigger(mouse)
+            if self.to_another_screen != 0:
+                return self.to_another_screen
             pygame.display.update()
 
 
-def startMenu():
+def start_menu():
     menu = Menu()
     menu.init()
-    menu.displayMenu()
+    menu.display_menu()
+    if menu.to_another_screen == 3:
+        Ranking.start_ranking()
 
 
 if __name__ == '__main__':
-    startMenu()
+    start_menu()
