@@ -3,11 +3,12 @@
 
 """Import statement go there"""
 
+
 from defer import return_value
 from pygame.locals import *
 import pygame
-import sys
 import Ranking
+from enum import Enum
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __license__ = "GPL"
@@ -16,12 +17,16 @@ __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
 
+class ToOtherScreen(Enum):
+    MENU = 0
+    PLAY = 1
+    LOAD = 2
+    RANKING = 3
+
+
 class Menu:
     def __init__(self):
-        pygame.init()
-        pygame.mixer.init()
-        self.running = True
-        self.to_another_screen = 0
+        self.to_another_screen = ToOtherScreen.MENU
 
         self.size = width, height = 1920, 1080
 
@@ -94,15 +99,15 @@ class Menu:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Rect.collidepoint(self.rectPlay, mouse):
-                    self.to_another_screen = 1
+                    self.to_another_screen = ToOtherScreen.PLAY
                 elif Rect.collidepoint(self.rectLoad, mouse):
-                    self.to_another_screen = 2
+                    self.to_another_screen = ToOtherScreen.LOAD
                 elif Rect.collidepoint(self.rectRanking, mouse):
-                    self.to_another_screen = 3
+                    self.to_another_screen = ToOtherScreen.RANKING
                 elif Rect.collidepoint(self.rectExit, mouse):
                     self.running = False
             if event.type == pygame.QUIT:
-                sys.exit()
+                pygame.quit()
 
     def init(self):
         self.load_and_play_music()
@@ -110,25 +115,22 @@ class Menu:
         self.draw_rect()
 
     def display_menu(self):
-        while self.running:
-            mouse = pygame.mouse.get_pos()
-            self.screen.blit(self.background, (0, 0))
+        mouse = pygame.mouse.get_pos()
+        self.screen.blit(self.background, (0, 0))
 
-            self.draw_text()
-            self.collide_point(mouse)
-            self.event_trigger(mouse)
-            if self.to_another_screen != 0:
-                return self.to_another_screen
-            pygame.display.update()
+        self.draw_text()
+        self.collide_point(mouse)
+        self.event_trigger(mouse)
+        if self.to_another_screen != ToOtherScreen.MENU:
+            return self.to_another_screen
 
 
 def start_menu():
     menu = Menu()
+    # add this function before the game loop
     menu.init()
+    # add this function in the game loop
     menu.display_menu()
-    if menu.to_another_screen == 3:
+    #
+    if menu.to_another_screen == ToOtherScreen.RANKING:
         Ranking.start_ranking()
-
-
-if __name__ == '__main__':
-    start_menu()

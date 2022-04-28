@@ -2,10 +2,9 @@
 
 
 """Import statement go there"""
-import Menu
+from Menu import *
 from pygame.locals import *
 import pygame
-import sys
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __license__ = "GPL"
@@ -16,10 +15,7 @@ __email__ = "magalie.vandenbriele@epitech.eu"
 
 class Ranking:
     def __init__(self):
-        pygame.init()
-        pygame.mixer.init()
-        self.running = True
-        self.to_another_screen = 0
+        self.to_another_screen = ToOtherScreen.RANKING
 
         self.size = width, height = 1920, 1080
 
@@ -83,9 +79,9 @@ class Ranking:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Rect.collidepoint(self.rectExit, mouse):
-                    self.to_another_screen = 1
+                    self.to_another_screen = ToOtherScreen.MENU
             if event.type == pygame.QUIT:
-                sys.exit()
+                pygame.quit()
 
     def init(self):
         self.load_and_play_music()
@@ -93,25 +89,22 @@ class Ranking:
         self.draw_rect()
 
     def display_ranking(self):
-        while self.running:
-            mouse = pygame.mouse.get_pos()
-            self.screen.blit(self.background, (0, 0))
+        mouse = pygame.mouse.get_pos()
+        self.screen.blit(self.background, (0, 0))
 
-            self.draw_text()
-            self.collide_point(mouse)
-            self.event_trigger(mouse)
-            if self.to_another_screen != 0:
-                return self.to_another_screen
-            pygame.display.update()
+        self.draw_text()
+        self.collide_point(mouse)
+        self.event_trigger(mouse)
+        if self.to_another_screen == ToOtherScreen.MENU:
+            return self.to_another_screen
 
 
 def start_ranking():
     ranking = Ranking()
+    # add this function before the game loop
     ranking.init()
+    # add this function in the game loop
     ranking.display_ranking()
-    if ranking.to_another_screen == 1:
+    #
+    if ranking.to_another_screen == ToOtherScreen.MENU:
         Menu.start_menu()
-
-
-if __name__ == '__main__':
-    start_ranking()
