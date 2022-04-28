@@ -122,7 +122,3 @@ def start_pause():
     #
     if pause.to_another_screen == MenuRedirection.RESTART:
         pygame.quit()
-
-
-if __name__ == '__main__':
-    start_pause()
