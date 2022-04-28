@@ -15,7 +15,7 @@ __email__ = "magalie.vandenbriele@epitech.eu"
 
 class Ranking:
     def __init__(self):
-        self.to_another_screen = ToOtherScreen.RANKING
+        self.to_another_screen = MenuRedirection.RANKING
 
         self.size = width, height = 1920, 1080
 
@@ -79,23 +79,24 @@ class Ranking:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Rect.collidepoint(self.rectExit, mouse):
-                    self.to_another_screen = ToOtherScreen.MENU
+                    return MenuRedirection.MENU
             if event.type == pygame.QUIT:
                 pygame.quit()
+        return self.to_another_screen
 
     def init(self):
         self.load_and_play_music()
         self.init_rect()
         self.draw_rect()
 
-    def display_ranking(self):
+    def run_ranking(self):
         mouse = pygame.mouse.get_pos()
         self.screen.blit(self.background, (0, 0))
 
         self.draw_text()
         self.collide_point(mouse)
-        self.event_trigger(mouse)
-        if self.to_another_screen == ToOtherScreen.MENU:
+        self.to_another_screen = self.event_trigger(mouse)
+        if self.to_another_screen != MenuRedirection.RANKING:
             return self.to_another_screen
 
 
@@ -104,7 +105,7 @@ def start_ranking():
     # add this function before the game loop
     ranking.init()
     # add this function in the game loop
-    ranking.display_ranking()
+    ranking.run_ranking()
     #
-    if ranking.to_another_screen == ToOtherScreen.MENU:
+    if ranking.to_another_screen == MenuRedirection.MENU:
         Menu.start_menu()

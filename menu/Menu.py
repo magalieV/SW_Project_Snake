@@ -17,16 +17,21 @@ __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
 
-class ToOtherScreen(Enum):
+class MenuRedirection(Enum):
     MENU = 0
     PLAY = 1
     LOAD = 2
     RANKING = 3
+    PAUSE = 4
+    RESUME = 5
+    RESTART = 6
+    SAVE = 7
+    QUIT = 8
 
 
 class Menu:
     def __init__(self):
-        self.to_another_screen = ToOtherScreen.MENU
+        self.to_another_screen = MenuRedirection.MENU
 
         self.size = width, height = 1920, 1080
 
@@ -99,29 +104,30 @@ class Menu:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Rect.collidepoint(self.rectPlay, mouse):
-                    self.to_another_screen = ToOtherScreen.PLAY
+                    return MenuRedirection.PLAY
                 elif Rect.collidepoint(self.rectLoad, mouse):
-                    self.to_another_screen = ToOtherScreen.LOAD
+                    return MenuRedirection.LOAD
                 elif Rect.collidepoint(self.rectRanking, mouse):
-                    self.to_another_screen = ToOtherScreen.RANKING
+                    return MenuRedirection.RANKING
                 elif Rect.collidepoint(self.rectExit, mouse):
-                    self.running = False
+                    return MenuRedirection.QUIT
             if event.type == pygame.QUIT:
                 pygame.quit()
+        return self.to_another_screen
 
     def init(self):
         self.load_and_play_music()
         self.init_rect()
         self.draw_rect()
 
-    def display_menu(self):
+    def run_menu(self):
         mouse = pygame.mouse.get_pos()
         self.screen.blit(self.background, (0, 0))
 
         self.draw_text()
         self.collide_point(mouse)
-        self.event_trigger(mouse)
-        if self.to_another_screen != ToOtherScreen.MENU:
+        self.to_another_screen = self.event_trigger(mouse)
+        if self.to_another_screen != MenuRedirection.MENU:
             return self.to_another_screen
 
 
@@ -130,7 +136,7 @@ def start_menu():
     # add this function before the game loop
     menu.init()
     # add this function in the game loop
-    menu.display_menu()
+    menu.run_menu()
     #
-    if menu.to_another_screen == ToOtherScreen.RANKING:
+    if menu.to_another_screen == MenuRedirection.RANKING:
         Ranking.start_ranking()
