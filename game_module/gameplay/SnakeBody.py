@@ -1,9 +1,9 @@
 """SnakeBody.py: File that handle the snake body display and movement"""
 
 import pygame
-from game.gameplay.Enumerations import Position, Movement
-from game.gameplay.Apple import Apple
-from game.gameplay.Settings import Grill
+from game_module.gameplay.Enumerations import Position, Movement
+from game_module.gameplay.Apple import Apple
+from game_module.gameplay.Settings import Grill
 
 __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]

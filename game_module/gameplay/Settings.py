@@ -1,6 +1,6 @@
 """Settings.py: File that handle global class"""
 
-from game.gameplay.Enumerations import Movement
+from game_module.gameplay.Enumerations import Movement
 
 __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]

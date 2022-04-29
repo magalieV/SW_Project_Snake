@@ -1,10 +1,10 @@
 """Snake.py: File that handle the snake display and movement"""
 
 import pygame
-from game.gameplay.SnakeHead import SnakeHead
-from game.gameplay.Apple import Apple
-from game.gameplay.SnakeBody import SnakeBody
-from game.gameplay.Enumerations import CollideType
+from game_module.gameplay.SnakeHead import SnakeHead
+from game_module.gameplay.Apple import Apple
+from game_module.gameplay.SnakeBody import SnakeBody
+from game_module.gameplay.Enumerations import CollideType
 
 __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
