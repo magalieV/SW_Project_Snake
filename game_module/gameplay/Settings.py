@@ -1,6 +1,6 @@
 """Settings.py: File that handle global class"""
 
-from Enumerations import Movement
+from game.gameplay.Enumerations import Movement
 
 __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
@@ -24,3 +24,6 @@ class Grill:
 
     def display_console(self):
         print("x = ", self.x, " and y = ", self.y, " and movement = ", self.movement)
+
+    def to_write_str(self):
+        return str(self.movement.value) + "," + str(self.x) + "," + str(self.y) + "\n"

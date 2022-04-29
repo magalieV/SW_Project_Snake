@@ -15,11 +15,13 @@ class Apple:
     position = (0, 0)
     sprite_size = 32.0
 
-    def __init__(self, screen_size, screen):
-        self._sprite = pygame.image.load("assets/elements/apple.png")
+    def __init__(self, screen, screen_size, position_save=None):
+        self._sprite = pygame.image.load("game/assets/elements/apple.png")
         self._screen_size = screen_size
         self._screen = screen
         self.generate()
+        if position_save is not None:
+            self.position = position_save
 
     def generate(self):
         x = round(random.randrange(0, round(self._screen_size[0] / self.sprite_size - 1))) * self.sprite_size
