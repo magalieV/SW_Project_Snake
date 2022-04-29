@@ -13,7 +13,7 @@ __email__ = "magalie.vandenbriele@epitech.eu"
 
 class Apple:
     position = (0, 0)
-    sprite_size = 32
+    sprite_size = 32.0
 
     def __init__(self, screen_size, screen):
         self._sprite = pygame.image.load("assets/elements/apple.png")
@@ -22,8 +22,8 @@ class Apple:
         self.generate()
 
     def generate(self):
-        x = round(random.randrange(0, round(self._screen_size[0] / 32 - 1))) * 32.0
-        y = round(random.randrange(0, round(self._screen_size[1] / 32 - 1))) * 32.0
+        x = round(random.randrange(0, round(self._screen_size[0] / self.sprite_size - 1))) * self.sprite_size
+        y = round(random.randrange(0, round(self._screen_size[1] / self.sprite_size - 1))) * self.sprite_size
         self.position = (x, y)
 
     def display(self):
