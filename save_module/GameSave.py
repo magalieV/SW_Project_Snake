@@ -1,11 +1,11 @@
 """GameSave.py: File that handle the save of the game"""
 
-from game.gameplay.Snake import Snake
-from game.gameplay.SnakeHead import SnakeHead
-from game.gameplay.SnakeBody import SnakeBody
-from game.gameplay.Settings import Grill
-from game.gameplay.Enumerations import Movement
-from game.gameplay.Apple import Apple
+from game_module.gameplay.Snake import Snake
+from game_module.gameplay.SnakeHead import SnakeHead
+from game_module.gameplay.SnakeBody import SnakeBody
+from game_module.gameplay.Settings import Grill
+from game_module.gameplay.Enumerations import Movement
+from game_module.gameplay.Apple import Apple
 
 __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
