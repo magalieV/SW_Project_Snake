@@ -2,7 +2,6 @@
 
 from pygame.locals import *
 import pygame
-from menu.Ranking import Ranking
 from menu.MenuRedirection import MenuRedirection
 
 __author__ = "Pierre Ghyzel"
@@ -17,12 +16,12 @@ class Menu:
     def __init__(self, window_size, window):
         self.to_another_screen = MenuRedirection.MENU
 
-        self.size = width, height = 1920, 1080
+        self.size = width, height = 990, 540
 
         self.screen = window
 
         self.background = pygame.image.load("menu/assets/background.jpg")
-        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 120)
+        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 60)
         self.color_btn_text = (81, 73, 41)
         self.color_btn_bg = (8, 29, 30)
         self.color_btn_text_trigger = (113, 12, 26)
@@ -44,10 +43,10 @@ class Menu:
         pygame.mixer.music.play(-1)
 
     def init_rect(self):
-        self.rectPlay = Rect(self.width/3 + 125, 120, 300, 150)
-        self.rectLoad = Rect(self.width/3 + 125, 320, 300, 150)
-        self.rectRanking = Rect(self.width/3, 520, 600, 150)
-        self.rectExit = Rect(self.width/3 + 125, 720, 300, 150)
+        self.rectPlay = Rect(self.width/3 + 62, 60, 150, 75)
+        self.rectLoad = Rect(self.width/3 + 62, 160, 150, 75)
+        self.rectRanking = Rect(self.width/3, 260, 300, 75)
+        self.rectExit = Rect(self.width/3 + 62, 360, 150, 75)
 
     def draw_rect(self):
         pygame.draw.rect(self.screen, self.color_btn_bg, self.rectPlay, 1)
@@ -56,10 +55,10 @@ class Menu:
         pygame.draw.rect(self.screen, self.color_btn_bg, self.rectExit, 1)
 
     def draw_text(self):
-        self.screen.blit(self.text_play, (self.width/3 + 125, 120))
-        self.screen.blit(self.text_load, (self.width/3 + 125, 320))
-        self.screen.blit(self.text_ranking, (self.width/3, 520))
-        self.screen.blit(self.text_exit, (self.width/3 + 125, 720))
+        self.screen.blit(self.text_play, (self.width/3 + 62, 60))
+        self.screen.blit(self.text_load, (self.width/3 + 62, 160))
+        self.screen.blit(self.text_ranking, (self.width/3, 260))
+        self.screen.blit(self.text_exit, (self.width/3 + 62, 360))
 
     def collide_point(self, mouse):
         if Rect.collidepoint(self.rectPlay, mouse):
