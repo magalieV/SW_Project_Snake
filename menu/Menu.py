@@ -1,14 +1,10 @@
 """Menu.py: File that handle the display of the menu"""
 
-
-"""Import statement go there"""
-
-
-from defer import return_value
 from pygame.locals import *
 import pygame
-import Ranking
-from enum import Enum
+from menu.Ranking import Ranking
+from menu.MenuRedirection import MenuRedirection
+
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __license__ = "GPL"
@@ -17,28 +13,16 @@ __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
 
-class MenuRedirection(Enum):
-    MENU = 0
-    PLAY = 1
-    LOAD = 2
-    RANKING = 3
-    PAUSE = 4
-    RESUME = 5
-    RESTART = 6
-    SAVE = 7
-    QUIT = 8
-
-
 class Menu:
-    def __init__(self):
+    def __init__(self, window_size, window):
         self.to_another_screen = MenuRedirection.MENU
 
         self.size = width, height = 1920, 1080
 
-        self.screen = pygame.display.set_mode(self.size)
+        self.screen = window
 
-        self.background = pygame.image.load("assets/background.jpg")
-        self.font_btn = pygame.font.Font("assets/Granjon.otf", 120)
+        self.background = pygame.image.load("menu/assets/background.jpg")
+        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 120)
         self.color_btn_text = (81, 73, 41)
         self.color_btn_bg = (8, 29, 30)
         self.color_btn_text_trigger = (113, 12, 26)
@@ -56,7 +40,7 @@ class Menu:
         self.height = self.screen.get_height()
 
     def load_and_play_music(self):
-        pygame.mixer.music.load("assets/menu_music.mp3")
+        pygame.mixer.music.load("menu/assets/menu_music.mp3")
         pygame.mixer.music.play(-1)
 
     def init_rect(self):
@@ -112,7 +96,7 @@ class Menu:
                 elif Rect.collidepoint(self.rectExit, mouse):
                     return MenuRedirection.QUIT
             if event.type == pygame.QUIT:
-                pygame.quit()
+                self.to_another_screen = MenuRedirection.QUIT
         return self.to_another_screen
 
     def init(self):
@@ -127,16 +111,4 @@ class Menu:
         self.draw_text()
         self.collide_point(mouse)
         self.to_another_screen = self.event_trigger(mouse)
-        if self.to_another_screen != MenuRedirection.MENU:
-            return self.to_another_screen
-
-
-def start_menu():
-    menu = Menu()
-    # add this function before the game loop
-    menu.init()
-    # add this function in the game loop
-    menu.run_menu()
-    #
-    if menu.to_another_screen == MenuRedirection.RANKING:
-        Ranking.start_ranking()
+        return self.to_another_screen

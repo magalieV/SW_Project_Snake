@@ -1,15 +1,11 @@
 """Pause.py: File that handle the display of the pause menu"""
 
-
-"""Import statement go there"""
-
-
 from Menu import *
-from defer import return_value
 from pygame.locals import *
 import pygame
 import Ranking
 from enum import Enum
+
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __license__ = "GPL"
