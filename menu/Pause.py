@@ -94,7 +94,7 @@ class Pause:
                 elif Rect.collidepoint(self.rectSave, mouse):
                     return MenuRedirection.SAVE
                 elif Rect.collidepoint(self.rectExit, mouse):
-                    return MenuRedirection.QUIT
+                    return MenuRedirection.MENU
             if event.type == pygame.QUIT:
                 pygame.quit()
         return self.to_another_screen
