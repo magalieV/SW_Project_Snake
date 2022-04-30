@@ -27,6 +27,7 @@ class MenuRedirection(Enum):
     RESTART = 6
     SAVE = 7
     QUIT = 8
+    GAMEOVER = 9
 
 
 class Menu:
