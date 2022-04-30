@@ -6,6 +6,7 @@ from game_module.gameplay.SnakeBody import SnakeBody
 from game_module.gameplay.Settings import Grill
 from game_module.gameplay.Enumerations import Movement
 from game_module.gameplay.Apple import Apple
+import os
 
 __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
@@ -47,6 +48,8 @@ class GameSave:
         corner = []
         snake_body_part = []
         apple_position = None
+        if not os.path.exists(self._file_path):
+            return None
         with open(self._file_path, "r") as file_input:
             lines = file_input.readlines()
             state = SavingState.HEAD
@@ -73,6 +76,8 @@ class GameSave:
                     info = line.split(',')
                     apple_position = (float(info[0]), float(info[1]))
         snake_body = SnakeBody(window, window_size, snake_body_part)
-        return Snake(window, window_size, snake_head, snake_body, corner), Apple(window, window_size, apple_position)
+        if snake_head is None:
+            return None
+        return Snake(window, window_size, snake_head, snake_body, corner, Apple(window, window_size, apple_position))
 
 

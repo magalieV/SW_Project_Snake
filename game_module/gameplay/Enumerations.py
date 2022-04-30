@@ -26,3 +26,11 @@ class CollideType(Enum):
 class Position(Enum):
     HORIZONTAL = 1
     VERTICAL = 2
+
+
+class Turn(Enum):
+    DOWN_LEFT = 1
+    DOWN_RIGHT = 2
+    UP_LEFT = 3
+    UP_RIGHT = 4
+    NONE = 5

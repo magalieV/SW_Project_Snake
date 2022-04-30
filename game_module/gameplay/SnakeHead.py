@@ -12,11 +12,11 @@ __version__ = "1.0"
 __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
-HEAD_UP = "game/assets/snake/head_up.png"
-HEAD_DOWN = "game/assets/snake/head_down.png"
-HEAD_LEFT = "game/assets/snake/head_left.png"
-HEAD_RIGHT = "game/assets/snake/head_right.png"
-SPEED = 8
+HEAD_UP = "game_module/assets/snake/head_up.png"
+HEAD_DOWN = "game_module/assets/snake/head_down.png"
+HEAD_LEFT = "game_module/assets/snake/head_left.png"
+HEAD_RIGHT = "game_module/assets/snake/head_right.png"
+SPEED = 25
 
 
 class SnakeHead:
@@ -28,13 +28,13 @@ class SnakeHead:
                        Movement.DOWN: pygame.image.load(HEAD_DOWN).convert_alpha(),
                        Movement.LEFT: pygame.image.load(HEAD_LEFT).convert_alpha(),
                        Movement.RIGHT: pygame.image.load(HEAD_RIGHT).convert_alpha()}
-        self._sprite_size = 32
+        self._sprite_size = 25
         self._window = window
         self._window_size = window_size
         self._next_head_movement = []
         if save_movement is None:
             self.actual_head = Movement.UP
-            self.head_position = ((round(window_size[0] / self._sprite_size) / 2 * self._sprite_size), (round(window_size[1] / self._sprite_size) / 2 * self._sprite_size))
+            self.head_position = (round(round(window_size[0] / self._sprite_size) / 2) * self._sprite_size, (round(round(window_size[1] / self._sprite_size) / 2) * self._sprite_size))
         else:
             self.actual_head = save_movement
             self.head_position = save_head
@@ -51,7 +51,6 @@ class SnakeHead:
         middle_apple_x = apple.position[0] + (apple.sprite_size / 2)
         middle_apple_y = apple.position[1] + (apple.sprite_size / 2)
         if middle_snake_x == middle_apple_x and middle_snake_y == middle_apple_y:
-            apple.generate()
             return CollideType.APPLE
         return CollideType.NONE
 

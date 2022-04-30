@@ -1,8 +1,10 @@
 """Ranking.py: File that handle the display of the ranking screen"""
+import sys
 
 from menu.MenuRedirection import MenuRedirection
 from pygame.locals import *
 import pygame
+import os
 
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
@@ -11,18 +13,19 @@ __version__ = "1.0"
 __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
+FONT_SIZE = 60
 
 class Ranking:
     def __init__(self, window_size, window):
-        self.to_another_screen = MenuRedirection.RANKING
 
-        self.size = width, height = 990, 540
+        self._window_size = window_size
+        self._back_size = (0.60 * window_size[0], 0.80 * window_size[1])
 
         self.screen = window
 
         self.background = pygame.image.load("menu/assets/background.jpg")
-        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 60)
-        self.color_btn_text = (81, 73, 41)
+        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", FONT_SIZE)
+        self.color_btn_text = (161, 144, 75)
         self.color_btn_bg = (8, 29, 30)
         self.color_btn_text_trigger = (113, 12, 26)
 
@@ -31,15 +34,29 @@ class Ranking:
         self.ranks = []
         self.ranks_text = []
 
-        with open('menu/ranking.txt') as f:
-            self.ranks = f.readlines()
+        self._rank_back = pygame.Surface((self._back_size[0], self._back_size[1]), pygame.SRCALPHA)
+        self._rank_back.fill((0, 0, 0, 170))
 
-        for rank in self.ranks:
-            self.ranks_text.append(self.font_btn.render(
-                rank, True, self.color_btn_text))
+        self._file_path = f'menu/ranking.txt'
+
+        self.load_ranking()
 
         self.text_exit = self.font_btn.render(
             'EXIT', True, self.color_btn_text)
+
+    def load_ranking(self):
+        self.ranks = {}
+        self._player_name = []
+        self._player_score = []
+        if os.path.exists(self._file_path):
+            with open(self._file_path) as file_input:
+                lines = file_input.readlines()
+                for line in lines:
+                    line = line.strip()
+                    ranks_save = line.split(',')
+                    self.ranks[ranks_save[0]] = int(ranks_save[1])
+                    self._player_name.append(self.font_btn.render(ranks_save[0], False, (255, 255, 255)))
+                    self._player_score.append(self.font_btn.render(ranks_save[1], False, (255, 40, 40)))
 
     def load_and_play_music(self):
         pygame.mixer.music.load("menu/assets/ranking_music.mp3")
@@ -47,12 +64,7 @@ class Ranking:
 
     def init_rect(self):
         self.ranks_rect = []
-        height_rank = 120
-        for rank in self.ranks:
-            self.ranks_rect.append(
-                Rect(self.width/3 - 25, height_rank, 150, 75))
-            height_rank += 100
-        self.rectExit = Rect(self.width/3 + 62, 430, 150, 75)
+        self.rectExit = Rect((self._window_size[0]/2 - (self.text_exit.get_width() / 2)), 0.80 * self._window_size[1], 150, 75)
 
     def draw_rect(self):
         for rank_rect in self.ranks_rect:
@@ -60,11 +72,16 @@ class Ranking:
         pygame.draw.rect(self.screen, self.color_btn_bg, self.rectExit, 1)
 
     def draw_text(self):
-        height_rank = 50
-        for rankText in self.ranks_text:
-            self.screen.blit(rankText, (self.width/3 - 25, height_rank))
+        height_rank = 0.10 * self._window_size[1] + 10
+        self.screen.blit(self._rank_back, (self._window_size[0]/2 - self._back_size[0]/2, 0.10 * self._window_size[1]))
+        for name in self._player_name:
+            self.screen.blit(name, (self.width/4, height_rank))
             height_rank += 75
-        self.screen.blit(self.text_exit, (self.width/3 + 62, 430))
+        height_rank = 0.10 * self._window_size[1] + 10
+        for name in self._player_score:
+            self.screen.blit(name, (self.width / 4 * 3 - name.get_width(), height_rank))
+            height_rank += 75
+        self.screen.blit(self.text_exit, ((self._window_size[0]/2 - (self.text_exit.get_width() / 2)), 0.80 * self._window_size[1]))
 
     def collide_point(self, mouse):
         if Rect.collidepoint(self.rectExit, mouse):
@@ -80,8 +97,8 @@ class Ranking:
                 if Rect.collidepoint(self.rectExit, mouse):
                     return MenuRedirection.MENU
             if event.type == pygame.QUIT:
-                self.to_another_screen = MenuRedirection.QUIT
-        return self.to_another_screen
+                return MenuRedirection.QUIT
+        return MenuRedirection.RANKING
 
     def init(self):
         self.load_and_play_music()
@@ -94,5 +111,24 @@ class Ranking:
 
         self.draw_text()
         self.collide_point(mouse)
-        self.to_another_screen = self.event_trigger(mouse)
-        return self.to_another_screen
+        return self.event_trigger(mouse)
+
+    def save_ranking(self, score):
+        if len(sys.argv) < 2:
+            name = "Player"
+        else:
+            name = sys.argv[1]
+        if name in self.ranks and score > self.ranks[name]:
+            self.ranks[name] = score
+        elif name not in self.ranks:
+            self.ranks[name] = score
+        sorted_list = sorted(self.ranks.items(), key=lambda x: x[1], reverse=True)
+        counter = 0
+        with open(self._file_path, "w") as file_output:
+            for element in sorted_list:
+                file_output.write(element[0] + "," + str(element[1]) + "\n")
+                counter += 1
+                if counter == 7:
+                    break
+
+

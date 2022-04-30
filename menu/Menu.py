@@ -11,20 +11,24 @@ __version__ = "1.0"
 __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
+BUTTON_DISTANCE = 130
+BUTTON_IN_DIST = 40
 
 class Menu:
-    def __init__(self, window_size, window):
-        self.to_another_screen = MenuRedirection.MENU
+    def __init__(self, window, window_size):
+        self._window_size = window_size
+        self._button_size = (350, 75)
 
-        self.size = width, height = 990, 540
+        self.size = window_size[0], window_size[1]
 
         self.screen = window
+        self._hover = MenuRedirection.NONE
 
         self.background = pygame.image.load("menu/assets/background.jpg")
         self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 60)
-        self.color_btn_text = (81, 73, 41)
-        self.color_btn_bg = (8, 29, 30)
-        self.color_btn_text_trigger = (113, 12, 26)
+        self.color_btn_text = (161, 144, 75)
+
+        self._rect_trigger = (65, 255, 255, 45)
 
         self.text_play = self.font_btn.render(
             'PLAY', True, self.color_btn_text)
@@ -38,76 +42,70 @@ class Menu:
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
 
+        self._play_rect = pygame.Surface((self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
+        self._play_rect.fill((0, 0, 0, 170))
+
+        self._rect_hover = pygame.Surface((self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
+        self._rect_hover.fill((0, 0, 0, 255))
+
+        self.rect_play = Rect(self.width/3 + 62, BUTTON_DISTANCE, self._button_size[0], self._button_size[1])
+        self.rect_load = Rect(self.width/3 + 62, 100 + BUTTON_DISTANCE + BUTTON_IN_DIST, self._button_size[0], self._button_size[1])
+        self.rect_ranking = Rect(self.width/3, 200 + BUTTON_DISTANCE + (BUTTON_IN_DIST * 2), self._button_size[0], self._button_size[1])
+        self.rect_exit = Rect(self.width/3 + 62, 300 + BUTTON_DISTANCE + (BUTTON_IN_DIST * 3), self._button_size[0], self._button_size[1])
+
     def load_and_play_music(self):
         pygame.mixer.music.load("menu/assets/menu_music.mp3")
         pygame.mixer.music.play(-1)
 
-    def init_rect(self):
-        self.rectPlay = Rect(self.width/3 + 62, 60, 150, 75)
-        self.rectLoad = Rect(self.width/3 + 62, 160, 150, 75)
-        self.rectRanking = Rect(self.width/3, 260, 300, 75)
-        self.rectExit = Rect(self.width/3 + 62, 360, 150, 75)
+    def draw_rect(self, redirect, x, y):
+        if self._hover is redirect:
+            self.screen.blit(self._rect_hover, (x, y))
+        else:
+            self.screen.blit(self._play_rect, (x, y))
 
-    def draw_rect(self):
-        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectPlay, 1)
-        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectLoad, 1)
-        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectRanking, 1)
-        pygame.draw.rect(self.screen, self.color_btn_bg, self.rectExit, 1)
+    def draw_button(self):
+        self.draw_rect(MenuRedirection.PLAY, self.width/2 - self._button_size[0]/2, BUTTON_DISTANCE)
+        self.draw_rect(MenuRedirection.LOAD, self.width/2 - self._button_size[0]/2, 100 + BUTTON_DISTANCE + BUTTON_IN_DIST)
+        self.draw_rect(MenuRedirection.RANKING, self.width/2 - self._button_size[0]/2, 200 + BUTTON_DISTANCE + (BUTTON_IN_DIST * 2))
+        self.draw_rect(MenuRedirection.QUIT, self.width/2 - self._button_size[0]/2, 300 + BUTTON_DISTANCE + (BUTTON_IN_DIST * 3))
 
     def draw_text(self):
-        self.screen.blit(self.text_play, (self.width/3 + 62, 60))
-        self.screen.blit(self.text_load, (self.width/3 + 62, 160))
-        self.screen.blit(self.text_ranking, (self.width/3, 260))
-        self.screen.blit(self.text_exit, (self.width/3 + 62, 360))
+        self.screen.blit(self.text_play, (self.width/2 - self.text_play.get_width() / 2, 5 + BUTTON_DISTANCE))
+        self.screen.blit(self.text_load, (self.width/2 - self.text_load.get_width() / 2, 105 + BUTTON_DISTANCE + BUTTON_IN_DIST))
+        self.screen.blit(self.text_ranking, (self.width/2 - self.text_ranking.get_width() / 2, 205 + BUTTON_DISTANCE + (BUTTON_IN_DIST * 2)))
+        self.screen.blit(self.text_exit, (self.width/2 - self.text_exit.get_width() / 2, 305 + BUTTON_DISTANCE + (BUTTON_IN_DIST * 3)))
 
     def collide_point(self, mouse):
-        if Rect.collidepoint(self.rectPlay, mouse):
-            self.text_play = self.font_btn.render(
-                'PLAY', True, self.color_btn_text_trigger)
-        elif Rect.collidepoint(self.rectLoad, mouse):
-            self.text_load = self.font_btn.render(
-                'LOAD', True, self.color_btn_text_trigger)
-        elif Rect.collidepoint(self.rectRanking, mouse):
-            self.text_ranking = self.font_btn.render(
-                'RANKING', True, self.color_btn_text_trigger)
-        elif Rect.collidepoint(self.rectExit, mouse):
-            self.text_exit = self.font_btn.render(
-                'EXIT', True, self.color_btn_text_trigger)
+        if Rect.collidepoint(self.rect_play, mouse):
+            self._hover = MenuRedirection.PLAY
+        elif Rect.collidepoint(self.rect_load, mouse):
+            self._hover = MenuRedirection.LOAD
+        elif Rect.collidepoint(self.rect_ranking, mouse):
+            self._hover = MenuRedirection.RANKING
+        elif Rect.collidepoint(self.rect_exit, mouse):
+            self._hover = MenuRedirection.QUIT
         else:
-            self.text_play = self.font_btn.render(
-                'PLAY', True, self.color_btn_text)
-            self.text_load = self.font_btn.render(
-                'LOAD', True, self.color_btn_text)
-            self.text_ranking = self.font_btn.render(
-                'RANKING', True, self.color_btn_text)
-            self.text_exit = self.font_btn.render(
-                'EXIT', True, self.color_btn_text)
+            self._hover = MenuRedirection.NONE
 
     def event_trigger(self, mouse):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if Rect.collidepoint(self.rectPlay, mouse):
+                if Rect.collidepoint(self.rect_play, mouse):
                     return MenuRedirection.PLAY
-                elif Rect.collidepoint(self.rectLoad, mouse):
+                elif Rect.collidepoint(self.rect_load, mouse):
                     return MenuRedirection.LOAD
-                elif Rect.collidepoint(self.rectRanking, mouse):
+                elif Rect.collidepoint(self.rect_ranking, mouse):
                     return MenuRedirection.RANKING
-                elif Rect.collidepoint(self.rectExit, mouse):
+                elif Rect.collidepoint(self.rect_exit, mouse):
                     return MenuRedirection.QUIT
             if event.type == pygame.QUIT:
-                self.to_another_screen = MenuRedirection.QUIT
-        return self.to_another_screen
-
-    def init(self):
-        self.load_and_play_music()
-        self.init_rect()
-        self.draw_rect()
+                return MenuRedirection.QUIT
+        return MenuRedirection.MENU
 
     def run_menu(self):
         mouse = pygame.mouse.get_pos()
         self.screen.blit(self.background, (0, 0))
-
+        self.draw_button()
         self.draw_text()
         self.collide_point(mouse)
-        self.to_another_screen = self.event_trigger(mouse)
-        return self.to_another_screen
+        return self.event_trigger(mouse)

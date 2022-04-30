@@ -20,3 +20,5 @@ class MenuRedirection(Enum):
     RESTART = 6
     SAVE = 7
     QUIT = 8
+    OVER = 9
+    NONE = 10
