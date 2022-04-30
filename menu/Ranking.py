@@ -17,12 +17,12 @@ class Ranking:
     def __init__(self):
         self.to_another_screen = MenuRedirection.RANKING
 
-        self.size = width, height = 1920, 1080
+        self.size = width, height = 990, 540
 
         self.screen = pygame.display.set_mode(self.size)
 
         self.background = pygame.image.load("assets/background.jpg")
-        self.font_btn = pygame.font.Font("assets/Granjon.otf", 120)
+        self.font_btn = pygame.font.Font("assets/Granjon.otf", 60)
         self.color_btn_text = (81, 73, 41)
         self.color_btn_bg = (8, 29, 30)
         self.color_btn_text_trigger = (113, 12, 26)
@@ -51,9 +51,9 @@ class Ranking:
         height_rank = 120
         for rank in self.ranks:
             self.ranks_rect.append(
-                Rect(self.width/3 - 50, height_rank, 300, 150))
-            height_rank += 200
-        self.rectExit = Rect(self.width/3 + 125, 860, 300, 150)
+                Rect(self.width/3 - 25, height_rank, 150, 75))
+            height_rank += 100
+        self.rectExit = Rect(self.width/3 + 62, 430, 150, 75)
 
     def draw_rect(self):
         for rank_rect in self.ranks_rect:
@@ -61,11 +61,11 @@ class Ranking:
         pygame.draw.rect(self.screen, self.color_btn_bg, self.rectExit, 1)
 
     def draw_text(self):
-        height_rank = 100
+        height_rank = 50
         for rankText in self.ranks_text:
-            self.screen.blit(rankText, (self.width/3 - 50, height_rank))
-            height_rank += 150
-        self.screen.blit(self.text_exit, (self.width/3 + 125, 860))
+            self.screen.blit(rankText, (self.width/3 - 25, height_rank))
+            height_rank += 75
+        self.screen.blit(self.text_exit, (self.width/3 + 62, 430))
 
     def collide_point(self, mouse):
         if Rect.collidepoint(self.rectExit, mouse):

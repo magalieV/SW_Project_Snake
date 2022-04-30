@@ -8,7 +8,6 @@ from Menu import *
 from defer import return_value
 from pygame.locals import *
 import pygame
-import Ranking
 from enum import Enum
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
@@ -22,11 +21,11 @@ class Pause:
     def __init__(self):
         self.to_another_screen = MenuRedirection.PAUSE
 
-        self.size = width, height = 1920, 1080
+        self.size = width, height = 990, 540
 
         self.screen = pygame.display.set_mode(self.size)
 
-        self.font_btn = pygame.font.Font("assets/Granjon.otf", 120)
+        self.font_btn = pygame.font.Font("assets/Granjon.otf", 60)
         self.color_btn_text = (81, 73, 41)
         self.color_btn_bg = (0, 0, 0)
         self.color_btn_text_trigger = (113, 12, 26)
@@ -44,10 +43,10 @@ class Pause:
         self.height = self.screen.get_height()
 
     def init_rect(self):
-        self.rectResume = Rect(self.width/3 + 125, 120, 500, 150)
-        self.rectRestart = Rect(self.width/3 + 75, 320, 600, 150)
-        self.rectSave = Rect(self.width/3 + 190, 520, 300, 150)
-        self.rectExit = Rect(self.width/3 + 190, 720, 300, 150)
+        self.rectResume = Rect(self.width/3 + 62, 60, 250, 75)
+        self.rectRestart = Rect(self.width/3 + 37, 160, 300, 75)
+        self.rectSave = Rect(self.width/3 + 95, 260, 150, 75)
+        self.rectExit = Rect(self.width/3 + 95, 360, 150, 75)
 
     def draw_rect(self):
         pygame.draw.rect(self.screen, self.color_btn_bg, self.rectResume, 1)
@@ -56,10 +55,10 @@ class Pause:
         pygame.draw.rect(self.screen, self.color_btn_bg, self.rectExit, 1)
 
     def draw_text(self):
-        self.screen.blit(self.text_resume, (self.width/3 + 125, 120))
-        self.screen.blit(self.text_restart, (self.width/3 + 75, 320))
-        self.screen.blit(self.text_save, (self.width/3 + 190, 520))
-        self.screen.blit(self.text_exit, (self.width/3 + 190, 720))
+        self.screen.blit(self.text_resume, (self.width/3 + 62, 60))
+        self.screen.blit(self.text_restart, (self.width/3 + 37, 160))
+        self.screen.blit(self.text_save, (self.width/3 + 95, 260))
+        self.screen.blit(self.text_exit, (self.width/3 + 95, 360))
 
     def collide_point(self, mouse):
         if Rect.collidepoint(self.rectResume, mouse):
