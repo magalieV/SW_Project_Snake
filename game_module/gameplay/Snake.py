@@ -6,6 +6,8 @@ from game_module.gameplay.Apple import Apple
 from game_module.gameplay.SnakeBody import SnakeBody
 from game_module.gameplay.Enumerations import CollideType
 from menu.MenuRedirection import MenuRedirection
+from interface_module.Map import Map
+from interface_module.Score import ScoreGame
 
 __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
@@ -20,10 +22,20 @@ class Snake:
     snake_head = None
     snake_body = None
     apple = None
+    map = None
+  #  score_disp = None
 
     def __init__(self, window, window_size, snake_head_save=None, snake_body_save=None, corner_save=None, apple_save=None):
         self._window = window
         self._window_size = window_size
+        self.map = Map(window, 40, 40)
+        self.eat_apple = pygame.mixer.Sound("game_module/assets/sound/apple_sound.mp3")
+        self.eat_apple.set_volume(1)
+        self.turn_sound = pygame.mixer.Sound("game_module/assets/sound/turn_sound.mp3")
+        self.turn_sound.set_volume(1)
+        pygame.mixer.music.load("game_module/assets/sound/game_music.mp3")
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
         if snake_head_save is None:
             self.snake_head = SnakeHead(window, window_size)
             self.snake_body = SnakeBody(window, window_size)
@@ -34,20 +46,28 @@ class Snake:
             self.snake_body = snake_body_save
             self.corners = corner_save
             self.apple = apple_save
+        self.score_disp = ScoreGame(window)
+        self.score_disp.set_score(len(self.snake_body.body_part) - 1)
 
     def score(self):
         return len(self.snake_body.body_part) - 1
 
     def display(self):
+        self.map.display()
+        self.score_disp.display()
+        self.apple.display()
         self.snake_head.display()
         self.snake_body.display()
 
     def event_trigger(self, evnt):
-        self.snake_head.event_trigger(evnt)
+        if self.snake_head.event_trigger(evnt):
+            self.turn_sound.play()
 
     def collide(self, apple):
         collide_type = self.snake_head.collide(apple)
         if collide_type == CollideType.APPLE:
+            self.score_disp.score_up()
+            self.eat_apple.play()
             self.apple.generate(self.snake_body.body_part, self.snake_head.head_position)
             self.snake_body.add_body()
         for part in self.snake_body.body_part:
@@ -70,9 +90,7 @@ class Snake:
                 return MenuRedirection.PAUSE
         self.update()
         state = self.collide(self.apple)
-        self._window.fill((0, 0, 0))
-        self.apple.display()
-        self.display()
         if state is CollideType.BORDER:
             return MenuRedirection.OVER
+        self.display()
         return MenuRedirection.PLAY

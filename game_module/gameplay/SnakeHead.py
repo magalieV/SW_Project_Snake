@@ -16,7 +16,7 @@ HEAD_UP = "game_module/assets/snake/head_up.png"
 HEAD_DOWN = "game_module/assets/snake/head_down.png"
 HEAD_LEFT = "game_module/assets/snake/head_left.png"
 HEAD_RIGHT = "game_module/assets/snake/head_right.png"
-SPEED = 25
+SPEED = 20
 
 
 class SnakeHead:
@@ -28,7 +28,7 @@ class SnakeHead:
                        Movement.DOWN: pygame.image.load(HEAD_DOWN).convert_alpha(),
                        Movement.LEFT: pygame.image.load(HEAD_LEFT).convert_alpha(),
                        Movement.RIGHT: pygame.image.load(HEAD_RIGHT).convert_alpha()}
-        self._sprite_size = 25
+        self._sprite_size = 20
         self._window = window
         self._window_size = window_size
         self._next_head_movement = []
@@ -43,8 +43,8 @@ class SnakeHead:
         return Grill(self.actual_head, self.head_position[0], self.head_position[1])
 
     def collide(self, apple):
-        if self.head_position[0] < 0 or (self.head_position[0] + self._sprite_size) > self._window_size[0] \
-                or self.head_position[1] < 0 or (self.head_position[1] + self._sprite_size) > self._window_size[1]:
+        if self.head_position[0] < 20 or (self.head_position[0] + self._sprite_size) > self._window_size[0] - 20 \
+                or self.head_position[1] < 20 or (self.head_position[1] + self._sprite_size) > self._window_size[1] - 20:
             return CollideType.BORDER
         middle_snake_x = self.head_position[0] + (self._sprite_size / 2)
         middle_snake_y = self.head_position[1] + (self._sprite_size / 2)
@@ -83,15 +83,20 @@ class SnakeHead:
             if event.key == pygame.K_LEFT and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.LEFT):
                 if self.actual_head is not Movement.RIGHT:
                     self._next_head_movement.append(Movement.LEFT)
+                    return True
             elif event.key == pygame.K_RIGHT \
                     and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.RIGHT):
                 if self.actual_head is not Movement.LEFT:
                     self._next_head_movement.append(Movement.RIGHT)
+                    return True
             elif event.key == pygame.K_UP \
                     and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.UP):
                 if self.actual_head is not Movement.DOWN:
                     self._next_head_movement.append(Movement.UP)
+                    return True
             elif event.key == pygame.K_DOWN \
                     and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.DOWN):
                 if self.actual_head is not Movement.UP:
                     self._next_head_movement.append(Movement.DOWN)
+                    return True
+            return False

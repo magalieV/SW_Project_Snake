@@ -20,7 +20,7 @@ TURN_RIGHT_UPPER = "game_module/assets/snake/upper_right.png"
 TURN_LEFT_BOTTOM = "game_module/assets/snake/bottom_left.png"
 TURN_RIGHT_BOTTOM = "game_module/assets/snake/bottom_right.png"
 
-SPEED = 25
+SPEED = 20
 TICK_SIZE = SPEED / SPEED
 
 
@@ -30,7 +30,7 @@ class SnakeBody:
     def __init__(self, window, window_size, body_part_save=None):
         self._window = window
         self._window_size = window_size
-        self._sprite_size = 25
+        self._sprite_size = 20
         self._turn = {}
         self._turn_sprite = {Turn.UP_LEFT: pygame.image.load(TURN_LEFT_UPPER).convert_alpha(),
                              Turn.UP_RIGHT: pygame.image.load(TURN_RIGHT_UPPER).convert_alpha(),

@@ -10,7 +10,7 @@ __version__ = "1.0"
 __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
-SPRITE_SIZE = 25
+SPRITE_SIZE = 20
 
 class Grill:
     movement = Movement.UP
@@ -34,7 +34,7 @@ class Grill:
 
     def collide(self, position):
         element_rect = pygame.Rect(position[0], position[1], SPRITE_SIZE, SPRITE_SIZE)
-        self.rect_value = pygame.Rect(self.x, self.y, 25, 25)
+        self.rect_value = pygame.Rect(self.x, self.y, SPRITE_SIZE, SPRITE_SIZE)
         if self.rect_value.colliderect(element_rect):
             return True
         return False
