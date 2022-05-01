@@ -14,7 +14,7 @@ class ScoreGame:
     def __init__(self, window):
         self.score = 0
         self._window = window
-        self.score_font = pygame.font.Font("menu/assets/Granjon.otf", 15)
+        self.score_font = pygame.font.Font("menu_module/assets/Granjon.otf", 15)
         self.scoretext = self.score_font.render(
             f"Score : {str(self.score)}",
             False,

@@ -1,8 +1,8 @@
 """Pause.py: File that handle the display of the pause menu"""
 
-from menu.Menu import *
+from menu_module.Menu import *
 from pygame.locals import *
-from menu.MenuRedirection import MenuRedirection
+from menu_module.MenuRedirection import MenuRedirection
 import pygame
 
 __author__ = "Pierre Ghyzel"
@@ -21,7 +21,7 @@ class Pause:
 
         self.screen = window
         self._button_size = (350, 75)
-        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 60)
+        self.font_btn = pygame.font.Font("menu_module/assets/Granjon.otf", 60)
         self.color_btn_text = (161, 144, 75)
         self.color_btn_bg = (0, 0, 0)
 

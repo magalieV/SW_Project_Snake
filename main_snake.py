@@ -1,13 +1,13 @@
 """main_snake.py: File that all the game"""
 
 import pygame
-from menu.Menu import Menu
-from menu.Ranking import Ranking
-from menu.MenuRedirection import MenuRedirection
+from menu_module.Menu import Menu
+from menu_module.Ranking import Ranking
+from menu_module.MenuRedirection import MenuRedirection
 from game_module.gameplay.Snake import Snake
 from save_module.GameSave import GameSave
-from menu.Pause import Pause
-from menu.GameOver import GameOver
+from menu_module.Pause import Pause
+from menu_module.GameOver import GameOver
 
 __author__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]

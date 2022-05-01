@@ -4,8 +4,8 @@
 
 from pygame.locals import *
 import pygame
-from menu.Menu import *
-from menu.MenuRedirection import MenuRedirection
+from menu_module.Menu import *
+from menu_module.MenuRedirection import MenuRedirection
 
 __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
@@ -22,8 +22,8 @@ class GameOver:
         self.screen = window
         self._window_size = window_size
 
-        self.background = pygame.image.load("menu/assets/background.jpg")
-        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 60)
+        self.background = pygame.image.load("menu_module/assets/background.jpg")
+        self.font_btn = pygame.font.Font("menu_module/assets/Granjon.otf", 60)
         self.color_btn_text = (161, 144, 75)
         self.color_btn_bg = (8, 29, 30)
         self.color_btn_text_trigger = (113, 12, 26)
@@ -50,7 +50,7 @@ class GameOver:
 
     def play_sound_effect(self):
         self.sound_effect.play()
-        pygame.mixer.music.load("menu/assets/gameOver.mp3")
+        pygame.mixer.music.load("menu_module/assets/gameOver.mp3")
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.1)
 

@@ -1,7 +1,7 @@
 """Ranking.py: File that handle the display of the ranking screen"""
-import sys
 
-from menu.MenuRedirection import MenuRedirection
+import sys
+from menu_module.MenuRedirection import MenuRedirection
 from pygame.locals import *
 import pygame
 import os
@@ -23,8 +23,8 @@ class Ranking:
 
         self.screen = window
 
-        self.background = pygame.image.load("menu/assets/background.jpg")
-        self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", FONT_SIZE)
+        self.background = pygame.image.load("menu_module/assets/background.jpg")
+        self.font_btn = pygame.font.Font("menu_module/assets/Granjon.otf", FONT_SIZE)
         self.color_btn_text = (161, 144, 75)
         self.color_btn_bg = (8, 29, 30)
         self.color_btn_text_trigger = (113, 12, 26)
@@ -37,7 +37,7 @@ class Ranking:
         self._rank_back = pygame.Surface((self._back_size[0], self._back_size[1]), pygame.SRCALPHA)
         self._rank_back.fill((0, 0, 0, 170))
 
-        self._file_path = f'menu/ranking.txt'
+        self._file_path = f'menu_module/ranking.txt'
 
         self.load_ranking()
 

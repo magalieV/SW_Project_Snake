@@ -5,7 +5,7 @@ from game_module.gameplay.SnakeHead import SnakeHead
 from game_module.gameplay.Apple import Apple
 from game_module.gameplay.SnakeBody import SnakeBody
 from game_module.gameplay.Enumerations import CollideType
-from menu.MenuRedirection import MenuRedirection
+from menu_module.MenuRedirection import MenuRedirection
 from interface_module.Map import Map
 from interface_module.Score import ScoreGame
 
