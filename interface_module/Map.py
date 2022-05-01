@@ -1,59 +1,37 @@
+"""Map.py: File that display the map"""
 
-"""map.py: File that handle the display of the map"""
-
-
-"""Import statement go there"""
-
-
-import os
-from random import randint
 import pygame
-from pygame.locals import *
-import numpy as np
-tile_width, tile_hight = 32, 32
-named_tile = {"body": 0, "head": 1, "apple": 2}
 
-debug = True
+__author__ = "Irama Chaouch"
+__credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
+__license__ = "GPL"
+__version__ = "1.0"
+__maintainer__ = "Magalie Vandenbriele"
+__email__ = "magalie.vandenbriele@epitech.eu"
 
 
-class Map():
+class Map:
+    def __init__(self, window, width, height):
+        self.sprite = pygame.image.load(
+            "interface_module/assets/map_back.png").convert()
+        self.wall_sprite = pygame.image.load(
+            "interface_module/assets/wall.png").convert()
+        self.width = width + 2
+        self.height = height + 2
+        self.window = window
+        self.square_color = (10, 19, 6)
 
-    def __init__(self, screen):
-        self.screen = screen
-        self.load_tileset(os.path.join("snake_interface.png"))
-        self.reset()
-        self.randomize()
-
-    def reset(self, tiles_x=40, tiles_y=40):
-        self.tiles_x, self.tiles_y = tiles_x, tiles_y
-        self.tiles = np.zeros((self.tiles_x, self.tiles_y), dtype=int)
-
-        if debug:
-            print("Map().reset(size={}, {})".format(tiles_x, tiles_y))
-
-    def randomize(self):
-
-        self.offset = (-200, -200)
-        for y in range(self.tiles_y):
-            for x in range(self.tiles_x):
-                self.tiles[x, y] = randint(0, len(named_tile.keys()))
-
-        self.tiles[1:] = named_tile["apple"]
-        self.tiles[:2] = named_tile["apple"]
-
-        if debug:
-            print("tiles = ", self.tiles)
-
-    def load_tileset(self, image="snake_interface.png"):
-        self.tileset = pygame.image.load(image)
-        self.rect = self.tileset.get_rect()
-
-    def draw(self):
-        for y in range(self.tiles_y):
-            for x in range(self.tiles_x):
-                cur = self.tiles[x][y]
-                dest = Rect(x * tile_width, y * tile_hight,
-                            tile_width, tile_hight)
-                src = Rect(cur * tile_width, 0, tile_width, tile_hight)
-
-                self.screen.blit(self.tileset, dest, src)
+    def display(self):
+        x = 0
+        y = 0
+        for i in range(0, self.width):
+            for j in range(0, self.height):
+                if x == 0 or y == 0 or i == self.width - 1 or j == self.height - 1:
+                    self.window.blit(self.wall_sprite, (x, y))
+                else:
+                    self.window.blit(self.sprite, (x, y))
+                    pygame.draw.rect(self.window, self.square_color,
+                                     pygame.Rect(x, y, 20, 20), 2)
+                y += 20
+            x += 20
+            y = 0
