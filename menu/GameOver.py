@@ -27,6 +27,8 @@ class GameOver:
         self.color_btn_text = (161, 144, 75)
         self.color_btn_bg = (8, 29, 30)
         self.color_btn_text_trigger = (113, 12, 26)
+        self.sound_effect = pygame.mixer.Sound("game_module/assets/sound/over_sound.mp3")
+        self.sound_effect.set_volume(0.7)
         self._back_size = (0.60 * window_size[0], 0.80 * window_size[1])
 
         self.text_game_over = self.font_btn.render(
@@ -46,9 +48,11 @@ class GameOver:
     def set_score(self, score):
         self._score = self.font_btn.render(str(score), False, (255, 40, 40))
 
-    def load_and_play_music(self):
+    def play_sound_effect(self):
+        self.sound_effect.play()
         pygame.mixer.music.load("menu/assets/gameOver.mp3")
         pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
 
     def init_rect(self):
         self.rect_to_menu = Rect((self._window_size[0] / 6) * 2 - (self.text_to_menu.get_width() / 2), (self._window_size[1] / 4) * 3, self.text_to_menu.get_width(), self.text_to_menu.get_height())
@@ -90,7 +94,6 @@ class GameOver:
         return MenuRedirection.OVER
 
     def init(self):
-        self.load_and_play_music()
         self.init_rect()
         self.draw_rect()
 

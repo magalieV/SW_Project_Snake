@@ -1,22 +1,24 @@
-
 """score.py: File that handle the display of the score"""
 
-
-"""Import statement go there"""
-
-
-
-
 import pygame
-class Interface:
-    def __init__(self, _window: pygame.Surface):
+
+__author__ = "Irama Chaouch"
+__credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
+__license__ = "GPL"
+__version__ = "1.0"
+__maintainer__ = "Magalie Vandenbriele"
+__email__ = "magalie.vandenbriele@epitech.eu"
+
+
+class ScoreGame:
+    def __init__(self, window):
         self.score = 0
-        self.window = _window
-        self.score_font = pygame.font.SysFont("comicsansms", 35)
+        self._window = window
+        self.score_font = pygame.font.Font("menu/assets/Granjon.otf", 15)
         self.scoretext = self.score_font.render(
             f"Score : {str(self.score)}",
             False,
-            (235, 54, 229)
+            (255, 255, 255)
         )
 
     def score_up(self):
@@ -24,17 +26,16 @@ class Interface:
         self.scoretext = self.score_font.render(
             f"Score : {str(self.score)}",
             False,
-            (235, 54, 229)
+            (255, 255, 255)
         )
 
-    def set_score(self, score: int):
+    def set_score(self, score):
         self.score = score
         self.scoretext = self.score_font.render(
             f"Score : {str(self.score)}",
             False,
-            (235, 54, 229)
+            (255, 255, 255)
         )
 
     def display(self):
-        self.window.fill((0, 0, 0))
-        self.window.blit(self.scoretext, [0, 0])
+        self._window.blit(self.scoretext, [10, 0])

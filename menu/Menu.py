@@ -11,7 +11,7 @@ __version__ = "1.0"
 __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
-BUTTON_DISTANCE = 130
+BUTTON_DISTANCE = 150
 BUTTON_IN_DIST = 40
 
 class Menu:
@@ -27,8 +27,6 @@ class Menu:
         self.background = pygame.image.load("menu/assets/background.jpg")
         self.font_btn = pygame.font.Font("menu/assets/Granjon.otf", 60)
         self.color_btn_text = (161, 144, 75)
-
-        self._rect_trigger = (65, 255, 255, 45)
 
         self.text_play = self.font_btn.render(
             'PLAY', True, self.color_btn_text)
@@ -54,8 +52,9 @@ class Menu:
         self.rect_exit = Rect(self.width/3 + 62, 300 + BUTTON_DISTANCE + (BUTTON_IN_DIST * 3), self._button_size[0], self._button_size[1])
 
     def load_and_play_music(self):
-        pygame.mixer.music.load("menu/assets/menu_music.mp3")
+        pygame.mixer.music.load("menu/assets/ranking_music.mp3")
         pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
 
     def draw_rect(self, redirect, x, y):
         if self._hover is redirect:

@@ -18,7 +18,7 @@ __email__ = "magalie.vandenbriele@epitech.eu"
 
 if __name__ == '__main__':
     pygame.init()
-    window_size = (800, 800)
+    window_size = (840, 840)
     screen = pygame.display.set_mode(window_size)
     pygame.display.update()
     pygame.display.set_caption('Snake game Magalie Vandenbriele, Pierre Ghyzel, Irama Chaouch')
@@ -61,21 +61,29 @@ if __name__ == '__main__':
             save_game.save(snake, snake.apple)
             window_choice = MenuRedirection.MENU
 
+        if window_choice is MenuRedirection.QUIT:
+            game_over = True
+            break
+
+        if window_choice is MenuRedirection.OVER and last_choice is not MenuRedirection.OVER:
+            game_over_window.play_sound_effect()
+
         if last_choice is not MenuRedirection.RANKING and window_choice is MenuRedirection.RANKING:
             ranking.load_ranking()
 
         if window_choice is MenuRedirection.OVER and last_choice is not MenuRedirection.OVER:
             game_over_window.set_score(snake.score())
 
-        if (last_choice == MenuRedirection.PLAY or last_choice == MenuRedirection.RESUME or last_choice is MenuRedirection.PAUSE)\
-                and window_choice is not MenuRedirection.PLAY and window_choice is not MenuRedirection.RESUME\
+        if window_choice is MenuRedirection.MENU and last_choice is not MenuRedirection.MENU \
+                and last_choice is not MenuRedirection.RANKING and last_choice is not MenuRedirection.LOAD:
+            menu.load_and_play_music()
+
+        if (last_choice == MenuRedirection.PLAY or last_choice == MenuRedirection.RESUME or last_choice is MenuRedirection.PAUSE) \
+                and window_choice is not MenuRedirection.PLAY and window_choice is not MenuRedirection.RESUME \
                 and window_choice is not MenuRedirection.PAUSE:
             ranking.save_ranking(snake.score())
-        if window_choice is MenuRedirection.QUIT:
-            game_over = True
-            break
         if (window_choice is MenuRedirection.PLAY or window_choice is MenuRedirection.RESTART) and \
-                last_choice is not MenuRedirection.PLAY and last_choice is not MenuRedirection.RESTART\
+                last_choice is not MenuRedirection.PLAY and last_choice is not MenuRedirection.RESTART \
                 and last_choice is not MenuRedirection.LOAD and last_choice is not MenuRedirection.RESUME:
             snake = Snake(screen, window_size)
             window_choice = MenuRedirection.PLAY

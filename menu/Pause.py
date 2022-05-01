@@ -12,7 +12,7 @@ __version__ = "1.0"
 __maintainer__ = "Magalie Vandenbriele"
 __email__ = "magalie.vandenbriele@epitech.eu"
 
-BUTTON_DISTANCE = 130
+BUTTON_DISTANCE = 150
 BUTTON_IN_DIST = 40
 
 class Pause:
@@ -25,7 +25,6 @@ class Pause:
         self.color_btn_text = (161, 144, 75)
         self.color_btn_bg = (0, 0, 0)
 
-        self._rect_trigger = (65, 255, 255, 45)
         self.text_resume = self.font_btn.render(
             'RESUME', True, self.color_btn_text)
         self.text_restart = self.font_btn.render(
@@ -39,10 +38,10 @@ class Pause:
         self.height = self.screen.get_height()
 
         self._play_rect = pygame.Surface((self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
-        self._play_rect.fill((100, 100, 100, 170))
+        self._play_rect.fill((30, 30, 30, 170))
         self._hover = MenuRedirection.NONE
         self._rect_hover = pygame.Surface((self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
-        self._rect_hover.fill((120, 120, 120, 255))
+        self._rect_hover.fill((0, 0, 0, 255))
 
         self.rect_resume = Rect(self.width/3 + 62, BUTTON_DISTANCE, self._button_size[0], self._button_size[1])
         self.rect_restart = Rect(self.width/3 + 62, 100 + BUTTON_DISTANCE + BUTTON_IN_DIST, self._button_size[0], self._button_size[1])

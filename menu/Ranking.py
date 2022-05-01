@@ -58,10 +58,6 @@ class Ranking:
                     self._player_name.append(self.font_btn.render(ranks_save[0], False, (255, 255, 255)))
                     self._player_score.append(self.font_btn.render(ranks_save[1], False, (255, 40, 40)))
 
-    def load_and_play_music(self):
-        pygame.mixer.music.load("menu/assets/ranking_music.mp3")
-        pygame.mixer.music.play(-1)
-
     def init_rect(self):
         self.ranks_rect = []
         self.rectExit = Rect((self._window_size[0]/2 - (self.text_exit.get_width() / 2)), 0.80 * self._window_size[1], 150, 75)
@@ -101,7 +97,6 @@ class Ranking:
         return MenuRedirection.RANKING
 
     def init(self):
-        self.load_and_play_music()
         self.init_rect()
         self.draw_rect()
 
