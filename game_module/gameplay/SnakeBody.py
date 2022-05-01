@@ -96,11 +96,6 @@ class SnakeBody:
                         or (element.turn is Turn.UP_RIGHT and corner.movement is Movement.UP) or \
                         (element.turn is Turn.DOWN_RIGHT and corner.movement is Movement.UP):
                     element.turn = Turn.UP_LEFT
-                else:
-                    print("corner")
-                    corner.display_console()
-                    print("next")
-                    element.display_console()
         if find_corner and element == self.body_part[-1]:
             corners.pop(0)
         if not find_corner:
