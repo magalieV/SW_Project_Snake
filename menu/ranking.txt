@@ -1,5 +1,0 @@
-Player1 123456
-Player2 25355
-Player3 5355
-Player4 355
-Player5 55
