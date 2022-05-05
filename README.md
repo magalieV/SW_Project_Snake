@@ -1,3 +1,11 @@
+<h1> How to play the game</h1>
+
+▶️ __To move the snake__: use the arrow key.
+
+⏸ __To pause the game__: use the space key.
+
+<hr>
+
 <h1>How to install the game</h1>
 
 1. Download the game using github system.
