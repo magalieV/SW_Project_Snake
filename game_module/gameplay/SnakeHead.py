@@ -2,7 +2,6 @@
 
 import pygame
 from game_module.gameplay.Enumerations import Movement, CollideType
-from game_module.gameplay.Apple import Apple
 from game_module.gameplay.Settings import Grill
 
 __author__ = "Magalie Vandenbriele"
@@ -34,7 +33,8 @@ class SnakeHead:
         self._next_head_movement = []
         if save_movement is None:
             self.actual_head = Movement.UP
-            self.head_position = (round(round(window_size[0] / self._sprite_size) / 2) * self._sprite_size, (round(round(window_size[1] / self._sprite_size) / 2) * self._sprite_size))
+            self.head_position = (round(round(window_size[0] / self._sprite_size) / 2) * self._sprite_size, (round(
+                round(window_size[1] / self._sprite_size) / 2) * self._sprite_size))
         else:
             self.actual_head = save_movement
             self.head_position = save_head
@@ -69,13 +69,17 @@ class SnakeHead:
                 self.actual_head = tmp
                 grill = Grill(tmp, square_x, square_y)
         if self.actual_head == Movement.UP:
-            self.head_position = (self.head_position[0], self.head_position[1] - SPEED)
+            self.head_position = (
+                self.head_position[0], self.head_position[1] - SPEED)
         elif self.actual_head == Movement.DOWN:
-            self.head_position = (self.head_position[0], self.head_position[1] + SPEED)
+            self.head_position = (
+                self.head_position[0], self.head_position[1] + SPEED)
         elif self.actual_head == Movement.LEFT:
-            self.head_position = (self.head_position[0] - SPEED, self.head_position[1])
+            self.head_position = (
+                self.head_position[0] - SPEED, self.head_position[1])
         elif self.actual_head == Movement.RIGHT:
-            self.head_position = (self.head_position[0] + SPEED, self.head_position[1])
+            self.head_position = (
+                self.head_position[0] + SPEED, self.head_position[1])
         return grill
 
     def event_trigger(self, event):
@@ -100,3 +104,25 @@ class SnakeHead:
                     self._next_head_movement.append(Movement.DOWN)
                     return True
             return False
+
+    def algo(self, apple):
+        if (self.head_position[1] == apple.position[1] and self.head_position[0] > apple.position[0]) or (self.head_position[1] == 20 and self.head_position[0] != 20):
+            if self.actual_head is not Movement.RIGHT:
+                self._next_head_movement.append(Movement.LEFT)
+                return True
+        elif (self.head_position[1] == apple.position[1] and self.head_position[0] < apple.position[0]) or (self.head_position[1] == 800 and self.head_position[0] != 800)\
+                and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.RIGHT):
+            if self.actual_head is not Movement.LEFT:
+                self._next_head_movement.append(Movement.RIGHT)
+                return True
+        elif (self.head_position[0] == apple.position[0] and self.head_position[1] > apple.position[1]) or self.head_position[0] == 800\
+                and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.UP):
+            if self.actual_head is not Movement.DOWN:
+                self._next_head_movement.append(Movement.UP)
+                return True
+        elif (self.head_position[0] == apple.position[0]) or self.head_position[0] == 20\
+                and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.DOWN):
+            if self.actual_head is not Movement.UP:
+                self._next_head_movement.append(Movement.DOWN)
+                return True
+        return False

@@ -29,9 +29,11 @@ class Snake:
         self._window = window
         self._window_size = window_size
         self.map = Map(window, 40, 40)
-        self.eat_apple = pygame.mixer.Sound("game_module/assets/sound/apple_sound.mp3")
+        self.eat_apple = pygame.mixer.Sound(
+            "game_module/assets/sound/apple_sound.mp3")
         self.eat_apple.set_volume(1)
-        self.turn_sound = pygame.mixer.Sound("game_module/assets/sound/turn_sound.mp3")
+        self.turn_sound = pygame.mixer.Sound(
+            "game_module/assets/sound/turn_sound.mp3")
         self.turn_sound.set_volume(1)
         pygame.mixer.music.load("game_module/assets/sound/game_music.mp3")
         pygame.mixer.music.play(-1)
@@ -40,7 +42,8 @@ class Snake:
             self.snake_head = SnakeHead(window, window_size)
             self.snake_body = SnakeBody(window, window_size)
             self.apple = Apple(window, window_size)
-            self.apple.generate(self.snake_body.body_part, self.snake_head.head_position)
+            self.apple.generate(self.snake_body.body_part,
+                                self.snake_head.head_position)
         else:
             self.snake_head = snake_head_save
             self.snake_body = snake_body_save
@@ -59,16 +62,21 @@ class Snake:
         self.snake_head.display()
         self.snake_body.display()
 
-    def event_trigger(self, evnt):
-        if self.snake_head.event_trigger(evnt):
-            self.turn_sound.play()
+    def event_trigger(self, evnt, bot):
+        if bot != None:
+            if self.snake_head.algo(self.apple):
+                self.turn_sound.play()
+        else:
+            if self.snake_head.event_trigger(evnt):
+                self.turn_sound.play()
 
     def collide(self, apple):
         collide_type = self.snake_head.collide(apple)
         if collide_type == CollideType.APPLE:
             self.score_disp.score_up()
             self.eat_apple.play()
-            self.apple.generate(self.snake_body.body_part, self.snake_head.head_position)
+            self.apple.generate(self.snake_body.body_part,
+                                self.snake_head.head_position)
             self.snake_body.add_body()
         for part in self.snake_body.body_part:
             if part.collide(self.snake_head.head_position):
@@ -81,9 +89,12 @@ class Snake:
             self.corners.append(new_corner)
         self.corners = self.snake_body.update(self.corners)
 
-    def run_snake_game(self):
+    def run_snake_game(self, bot=None):
+        if bot != None:
+            self.event_trigger(0, bot)
         for event in pygame.event.get():
-            self.event_trigger(event)
+            if bot == None:
+                self.event_trigger(event, bot)
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 return MenuRedirection.QUIT
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
