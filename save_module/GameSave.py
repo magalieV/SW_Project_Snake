@@ -40,7 +40,8 @@ class GameSave:
             for corner in corners:
                 file_output.write(corner.to_write_str())
             file_output.write("APPLE\n")
-            file_output.write(str(apple.position[0]) + "," + str(apple.position[1]))
+            file_output.write(
+                str(apple.position[0]) + "," + str(apple.position[1]))
 
     def load(self, window, window_size):
         snake_head = None
@@ -65,19 +66,20 @@ class GameSave:
                     state = SavingState.APPLE
                 elif state == SavingState.HEAD:
                     info = line.split(',')
-                    snake_head = SnakeHead(window, window_size, Movement(int(info[0])), (float(info[1]), float(info[2])))
+                    snake_head = SnakeHead(window, window_size, None, Movement(
+                        int(info[0])), (float(info[1]), float(info[2])))
                 elif state == SavingState.BODY:
                     info = line.split(',')
-                    snake_body_part.append(Grill(Movement(int(info[0])), float(info[1]), float(info[2])))
+                    snake_body_part.append(
+                        Grill(Movement(int(info[0])), float(info[1]), float(info[2])))
                 elif state == SavingState.CORNER:
                     info = line.split(',')
-                    corner.append(Grill(Movement(int(info[0])), float(info[1]), float(info[2])))
+                    corner.append(
+                        Grill(Movement(int(info[0])), float(info[1]), float(info[2])))
                 elif state is SavingState.APPLE:
                     info = line.split(',')
                     apple_position = (float(info[0]), float(info[1]))
-        snake_body = SnakeBody(window, window_size, snake_body_part)
+        snake_body = SnakeBody(window, window_size, None, snake_body_part)
         if snake_head is None:
             return None
-        return Snake(window, window_size, snake_head, snake_body, corner, Apple(window, window_size, apple_position))
-
-
+        return Snake(window, window_size, None, snake_head, snake_body, corner, Apple(window, window_size, apple_position))
