@@ -39,8 +39,7 @@ def solo_game(window_state, last_state, window, window_size, snake_game, save_ga
     while window_state is MenuRedirection.PLAY or window_state is MenuRedirection.RESUME:
         last_state = window_state
         window_state = snake_game.run_snake_game()
-        window_state, last_state = pause_menu(
-            menu_pause, window_state, last_state, save_game, snake_game)
+        window_state, last_state = pause_menu(menu_pause, window_state, last_state, save_game, snake_game)
         if window_state is MenuRedirection.RESTART:
             snake_game = Snake(window, window_size)
             window_state = MenuRedirection.PLAY
@@ -59,8 +58,7 @@ def multi_game(window_state, last_state, window, window_size, snake_game, save_g
     while window_state is MenuRedirection.PLAY_MULTI or window_state is MenuRedirection.RESUME:
         last_state = window_state
         window_state = snake_game.run_snake_game()
-        window_state, last_state = pause_menu(
-            pause_menu_multi, window_state, last_state, save_game, snake_game)
+        window_state, last_state = pause_menu(pause_menu_multi, window_state, last_state, save_game, snake_game)
         if window_state is MenuRedirection.RESTART:
             snake_game = Snake(window, window_size, True)
             window_state = MenuRedirection.PLAY_MULTI
@@ -80,14 +78,12 @@ def end_game(window_game_over, window_state, last_state):
         pygame.display.update()
     return window_state, last_state
 
-
 if __name__ == '__main__':
     pygame.init()
     window_size = (1640, 840)
     screen = pygame.display.set_mode(window_size)
     pygame.display.update()
-    pygame.display.set_caption(
-        'Snake game Magalie Vandenbriele, Pierre Ghyzel, Irama Chaouch')
+    pygame.display.set_caption('Snake game Magalie Vandenbriele, Pierre Ghyzel, Irama Chaouch')
     game_over = False
     clock = pygame.time.Clock()
 
@@ -118,12 +114,9 @@ if __name__ == '__main__':
             else:
                 window_choice = MenuRedirection.PLAY
 
-        snake, window_choice, last_choice = solo_game(
-            window_choice, last_choice, screen, window_size, snake, save_game, menu_pause)
-        snake, window_choice, last_choice = multi_game(
-            window_choice, last_choice, screen, window_size, snake, save_game, pause_menu_multi)
-        window_choice, last_choice = end_game(
-            game_over_window, window_choice, last_choice)
+        snake, window_choice, last_choice = solo_game(window_choice, last_choice, screen, window_size, snake, save_game, menu_pause)
+        snake, window_choice, last_choice = multi_game(window_choice, last_choice, screen, window_size, snake, save_game, pause_menu_multi)
+        window_choice, last_choice = end_game(game_over_window, window_choice, last_choice)
 
         if window_choice is MenuRedirection.QUIT:
             game_over = True
@@ -137,6 +130,7 @@ if __name__ == '__main__':
                 and window_choice is not MenuRedirection.PLAY and window_choice is not MenuRedirection.RESUME \
                 and window_choice is not MenuRedirection.PAUSE:
             ranking.save_ranking(snake.score())
+
 
         last_choice = window_choice
         pygame.display.update()

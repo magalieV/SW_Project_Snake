@@ -35,15 +35,13 @@ class SnakeHead:
         if save_movement is None:
             if multi is None:
                 self.actual_head = Movement.UP
-                self.head_position = (round(round(window_size[0] / self._sprite_size) / 2) * self._sprite_size, (round(
-                    round(window_size[1] / self._sprite_size) / 2) * self._sprite_size))
+                self.head_position = (round(round(window_size[0] / self._sprite_size) / 2) * self._sprite_size, (round(round(window_size[1] / self._sprite_size) / 2) * self._sprite_size))
             elif multi == 1:
                 self.actual_head = Movement.DOWN
                 self.head_position = (self._sprite_size, self._sprite_size * 2)
             elif multi == 2:
                 self.actual_head = Movement.UP
-                self.head_position = (self._sprite_size * 80 - self._sprite_size,
-                                      self._sprite_size * 40 - (self._sprite_size * 3))
+                self.head_position = (self._sprite_size * 80 - self._sprite_size, self._sprite_size * 40 - (self._sprite_size * 3))
         else:
             self.actual_head = save_movement
             self.head_position = save_head
@@ -78,17 +76,13 @@ class SnakeHead:
                 self.actual_head = tmp
                 grill = Grill(tmp, square_x, square_y)
         if self.actual_head == Movement.UP:
-            self.head_position = (
-                self.head_position[0], self.head_position[1] - SPEED)
+            self.head_position = (self.head_position[0], self.head_position[1] - SPEED)
         elif self.actual_head == Movement.DOWN:
-            self.head_position = (
-                self.head_position[0], self.head_position[1] + SPEED)
+            self.head_position = (self.head_position[0], self.head_position[1] + SPEED)
         elif self.actual_head == Movement.LEFT:
-            self.head_position = (
-                self.head_position[0] - SPEED, self.head_position[1])
+            self.head_position = (self.head_position[0] - SPEED, self.head_position[1])
         elif self.actual_head == Movement.RIGHT:
-            self.head_position = (
-                self.head_position[0] + SPEED, self.head_position[1])
+            self.head_position = (self.head_position[0] + SPEED, self.head_position[1])
         return grill
 
     def event_trigger_player_two(self, event):

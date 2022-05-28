@@ -16,8 +16,7 @@ class Apple:
     sprite_size = 20.0
 
     def __init__(self, screen, screen_size, position_save=None):
-        self._sprite = pygame.image.load(
-            "game_module/assets/elements/apple.png")
+        self._sprite = pygame.image.load("game_module/assets/elements/apple.png")
         self._screen_size = screen_size
         self._screen = screen
         if position_save is not None:
@@ -32,23 +31,17 @@ class Apple:
         return False
 
     def generate(self, body_part, head):
-        x = round(random.randrange(
-            1, round(self._screen_size[0] / self.sprite_size - 1) - 1)) * self.sprite_size
-        y = round(random.randrange(
-            1, round(self._screen_size[1] / self.sprite_size - 1) - 1)) * self.sprite_size
+        x = round(random.randrange(1, round(self._screen_size[0] / self.sprite_size - 1) - 1)) * self.sprite_size
+        y = round(random.randrange(1, round(self._screen_size[1] / self.sprite_size - 1) - 1)) * self.sprite_size
 
         while self.is_occupied(body_part, head, x, y):
-            x = round(random.randrange(
-                1, round(self._screen_size[0] / self.sprite_size - 1) - 1)) * self.sprite_size
-            y = round(random.randrange(
-                1, round(self._screen_size[1] / self.sprite_size - 1) - 1)) * self.sprite_size
+            x = round(random.randrange(1, round(self._screen_size[0] / self.sprite_size - 1) - 1)) * self.sprite_size
+            y = round(random.randrange(1, round(self._screen_size[1] / self.sprite_size - 1) - 1)) * self.sprite_size
         self.position = (x, y)
 
     def generate_multi(self, body_part, head, body_part_second, second_head, position_apple):
-        x = round(random.randrange(
-            1, round(self._screen_size[0] / self.sprite_size - 1) - 1)) * self.sprite_size
-        y = round(random.randrange(
-            1, round(self._screen_size[1] / self.sprite_size - 1) - 1)) * self.sprite_size
+        x = round(random.randrange(1, round(self._screen_size[0] / self.sprite_size - 1) - 1)) * self.sprite_size
+        y = round(random.randrange(1, round(self._screen_size[1] / self.sprite_size - 1) - 1)) * self.sprite_size
 
         while self.is_occupied(body_part, head, x, y) or self.is_occupied(body_part_second, second_head, x, y) or\
                 (x == position_apple[0] and y == position_apple[1]):
@@ -60,3 +53,4 @@ class Apple:
 
     def display(self):
         self._screen.blit(self._sprite, self.position)
+

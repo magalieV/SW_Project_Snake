@@ -35,11 +35,9 @@ class Snake:
         self._window = window
         self._loser = 1
         self._window_size = window_size
-        self.eat_apple = pygame.mixer.Sound(
-            "game_module/assets/sound/apple_sound.mp3")
+        self.eat_apple = pygame.mixer.Sound("game_module/assets/sound/apple_sound.mp3")
         self.eat_apple.set_volume(1)
-        self.turn_sound = pygame.mixer.Sound(
-            "game_module/assets/sound/turn_sound.mp3")
+        self.turn_sound = pygame.mixer.Sound("game_module/assets/sound/turn_sound.mp3")
         self.turn_sound.set_volume(1)
         pygame.mixer.music.load("game_module/assets/sound/game_music.mp3")
         pygame.mixer.music.play(-1)
@@ -50,22 +48,17 @@ class Snake:
                 self.snake_head = SnakeHead(window, window_size)
                 self.snake_body = SnakeBody(window, window_size)
                 self.apple = Apple(window, window_size)
-                self.apple.generate(self.snake_body.body_part,
-                                    self.snake_head.head_position)
+                self.apple.generate(self.snake_body.body_part, self.snake_head.head_position)
             else:
                 self.multi = True
                 self.snake_head = SnakeHead(self._window, window_size, 1)
                 self.snake_body = SnakeBody(self._window, window_size, 1)
-                self.second_snake_head = SnakeHead(
-                    self._window, window_size, 2)
-                self.second_snake_body = SnakeBody(
-                    self._window, window_size, 2)
+                self.second_snake_head = SnakeHead(self._window, window_size, 2)
+                self.second_snake_body = SnakeBody(self._window, window_size, 2)
                 self.second_apple = Apple(self._window, window_size)
                 self.apple = Apple(self._window, window_size)
-                self.apple.generate_multi(self.snake_body.body_part, self.snake_head.head_position,
-                                          self.second_snake_body.body_part, self.second_snake_head.head_position, (0, 0))
-                self.second_apple.generate_multi(self.snake_body.body_part, self.snake_head.head_position,
-                                                 self.second_snake_body.body_part, self.second_snake_head.head_position, self.apple.position)
+                self.apple.generate_multi(self.snake_body.body_part, self.snake_head.head_position, self.second_snake_body.body_part, self.second_snake_head.head_position, (0, 0))
+                self.second_apple.generate_multi(self.snake_body.body_part, self.snake_head.head_position, self.second_snake_body.body_part, self.second_snake_head.head_position, self.apple.position)
         else:
             self.snake_head = snake_head_save
             self.snake_body = snake_body_save
@@ -75,18 +68,18 @@ class Snake:
             self.score_disp = ScoreGame(self._window)
             self.score_disp.set_score(len(self.snake_body.body_part) - 1)
 
-        def get_result_board(self):
-            if self.multi is None:
-                return str(len(self.snake_body.body_part) - 1)
-            elif self._loser == 2:
-                if len(sys.argv) < 2:
-                    return "Player 1"
-                else:
-                    return sys.argv[1]
-            elif self._loser == 1:
-                if len(sys.argv) < 3:
-                    return "Player 2"
-                return sys.argv[2]
+    def get_result_board(self):
+        if self.multi is None:
+            return str(len(self.snake_body.body_part) - 1)
+        elif self._loser == 2:
+            if len(sys.argv) < 2:
+                return "Player 1"
+            else:
+                return sys.argv[1]
+        elif self._loser == 1:
+            if len(sys.argv) < 3:
+                return "Player 2"
+            return sys.argv[2]
 
     def score(self):
         return len(self.snake_body.body_part) - 1
@@ -124,8 +117,7 @@ class Snake:
         if collide_type == CollideType.APPLE:
             self.score_disp.score_up()
             self.eat_apple.play()
-            self.apple.generate(self.snake_body.body_part,
-                                self.snake_head.head_position)
+            self.apple.generate(self.snake_body.body_part, self.snake_head.head_position)
             self.snake_body.add_body()
         for part in self.snake_body.body_part:
             if part.collide(self.snake_head.head_position):
@@ -169,8 +161,7 @@ class Snake:
             new_second_corner = self.second_snake_head.update()
             if new_second_corner is not None:
                 self.second_corners.append(new_second_corner)
-            self.second_corners = self.second_snake_body.update(
-                self.second_corners)
+            self.second_corners = self.second_snake_body.update(self.second_corners)
 
     def run_snake_game(self):
         for event in pygame.event.get():

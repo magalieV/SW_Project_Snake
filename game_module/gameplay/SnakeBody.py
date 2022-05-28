@@ -43,15 +43,12 @@ class SnakeBody:
         if body_part_save is None:
             if multi is None:
                 self.body_part = [Grill(Movement.UP,
-                                        (round(
-                                            round(window_size[0] / self._sprite_size) / 2) * self._sprite_size),
+                                        (round(round(window_size[0] / self._sprite_size) / 2) * self._sprite_size),
                                         (round(round(window_size[1] / self._sprite_size) / 2) * self._sprite_size) + self._sprite_size)]
             elif multi == 1:
-                self.body_part = [
-                    (Grill(Movement.DOWN, self._sprite_size, self._sprite_size))]
+                self.body_part = [(Grill(Movement.DOWN, self._sprite_size, self._sprite_size))]
             elif multi == 2:
-                self.body_part = [(Grill(Movement.UP, self._sprite_size * 80 -
-                                   self._sprite_size, self._sprite_size * 40 - (self._sprite_size * 2)))]
+                self.body_part = [(Grill(Movement.UP, self._sprite_size * 80 - self._sprite_size, self._sprite_size * 40 - (self._sprite_size * 2)))]
 
         else:
             self.body_part = body_part_save
@@ -62,11 +59,9 @@ class SnakeBody:
     def display(self):
         for element in self.body_part:
             if element.turn is not Turn.NONE:
-                self._window.blit(
-                    self._turn_sprite[element.turn], (element.x, element.y))
+                self._window.blit(self._turn_sprite[element.turn], (element.x, element.y))
             else:
-                self._window.blit(
-                    self._sprites[self._associate[element.movement]], (element.x, element.y))
+                self._window.blit(self._sprites[self._associate[element.movement]], (element.x, element.y))
 
     def move_corner(self, element, corners):
         if element.movement == Movement.UP:

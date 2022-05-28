@@ -14,7 +14,6 @@ __email__ = "magalie.vandenbriele@epitech.eu"
 
 BUTTON_IN_DIST = 40
 
-
 class Pause:
     def __init__(self, window, window_size, button_distance=150, button_list_text=None):
         if button_list_text is None:
@@ -30,32 +29,29 @@ class Pause:
         self.color_btn_bg = (0, 0, 0)
 
         self._text = [self.font_btn.render('RESUME', True, self.color_btn_text),
-                      self.font_btn.render(
-                          'RESTART', True, self.color_btn_text),
+                      self.font_btn.render('RESTART', True, self.color_btn_text),
                       self.font_btn.render('SAVE', True, self.color_btn_text),
                       self.font_btn.render('EXIT', True, self.color_btn_text)]
 
         self.button_distance = button_distance
         self.button_list_text = button_list_text
 
-        self._play_rect = pygame.Surface(
-            (self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
+
+        self._play_rect = pygame.Surface((self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
         self._play_rect.fill((30, 30, 30, 170))
         self._hover = MenuRedirection.NONE
-        self._rect_hover = pygame.Surface(
-            (self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
+        self._rect_hover = pygame.Surface((self._button_size[0], self._button_size[1]), pygame.SRCALPHA)
         self._rect_hover.fill((0, 0, 0, 255))
 
         self.rectangle = []
 
         separation = 0
         for index in range(0, len(self.button_list_text)):
-            self.rectangle.append(Rect(self.width/3, separation + self.button_distance + (
-                BUTTON_IN_DIST * index), self._button_size[0], self._button_size[1]))
+            self.rectangle.append(Rect(self.width/3, separation + self.button_distance + (BUTTON_IN_DIST * index), self._button_size[0], self._button_size[1]))
             separation += 100
 
-        self.redirection_list = [
-            MenuRedirection.RESUME, MenuRedirection.RESTART, MenuRedirection.SAVE, MenuRedirection.MENU]
+        self.redirection_list = [MenuRedirection.RESUME, MenuRedirection.RESTART, MenuRedirection.SAVE, MenuRedirection.MENU]
+
 
     def draw_rect(self, redirect, x, y):
         if self._hover is redirect:
@@ -67,8 +63,7 @@ class Pause:
         idx = 0
         separation = 0
         for index in self.button_list_text:
-            self.draw_rect(self.redirection_list[index], self.width/2 - self._button_size[0] /
-                           2, separation + self.button_distance + (BUTTON_IN_DIST * idx))
+            self.draw_rect(self.redirection_list[index], self.width/2 - self._button_size[0]/2, separation + self.button_distance + (BUTTON_IN_DIST * idx))
             separation += 100
             idx += 1
 
@@ -77,8 +72,7 @@ class Pause:
         idx = 0
         for index in self.button_list_text:
             text = self._text[index]
-            self.screen.blit(text, (self.width / 2 - text.get_width() / 2,
-                             separation + self.button_distance + (BUTTON_IN_DIST * idx)))
+            self.screen.blit(text, (self.width / 2 - text.get_width() / 2, separation + self.button_distance + (BUTTON_IN_DIST * idx)))
             separation += 100
             idx += 1
 
