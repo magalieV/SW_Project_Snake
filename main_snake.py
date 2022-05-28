@@ -22,6 +22,7 @@ def pause_menu(menu_pause, window_state, last_state, save_game, snake_game):
         last_state = window_state
         window_state = menu_pause.run_pause()
         pygame.display.update()
+
     if window_state is MenuRedirection.SAVE and snake_game is not None:
         save_game.save(snake_game, snake_game.apple)
         window_state = MenuRedirection.MENU
@@ -34,6 +35,7 @@ def solo_game(window_state, last_state, window, window_size, snake_game, save_ga
             and last_state is not MenuRedirection.LOAD and last_state is not MenuRedirection.RESUME:
         snake_game = Snake(window, window_size)
         window_state = MenuRedirection.PLAY
+
     while window_state is MenuRedirection.PLAY or window_state is MenuRedirection.RESUME:
         last_state = window_state
         window_state = snake_game.run_snake_game()
@@ -53,6 +55,7 @@ def multi_game(window_state, last_state, window, window_size, snake_game, save_g
             and last_state is not MenuRedirection.LOAD and last_state is not MenuRedirection.RESUME:
         snake_game = Snake(window, window_size, True)
         window_state = MenuRedirection.PLAY_MULTI
+
     while window_state is MenuRedirection.PLAY_MULTI or window_state is MenuRedirection.RESUME:
         last_state = window_state
         window_state = snake_game.run_snake_game()
@@ -70,6 +73,7 @@ def end_game(window_game_over, window_state, last_state):
     if window_state is MenuRedirection.OVER and last_state is not MenuRedirection.OVER:
         window_game_over.play_sound_effect()
         window_game_over.set_score_text(snake.get_result_board())
+
     while window_state is MenuRedirection.OVER:
         last_state = window_state
         window_state = window_game_over.run_game_over()
@@ -79,7 +83,7 @@ def end_game(window_game_over, window_state, last_state):
 
 if __name__ == '__main__':
     pygame.init()
-    window_size = (840, 840)
+    window_size = (1640, 840)
     screen = pygame.display.set_mode(window_size)
     pygame.display.update()
     pygame.display.set_caption(
@@ -113,6 +117,7 @@ if __name__ == '__main__':
                 window_choice = MenuRedirection.MENU
             else:
                 window_choice = MenuRedirection.PLAY
+
         snake, window_choice, last_choice = solo_game(
             window_choice, last_choice, screen, window_size, snake, save_game, menu_pause)
         snake, window_choice, last_choice = multi_game(
@@ -123,21 +128,16 @@ if __name__ == '__main__':
         if window_choice is MenuRedirection.QUIT:
             game_over = True
             break
-
         if last_choice is not MenuRedirection.RANKING and window_choice is MenuRedirection.RANKING:
             ranking.load_ranking()
-
-        if window_choice is MenuRedirection.OVER and last_choice is not MenuRedirection.OVER:
-            game_over_window.set_score(snake.score())
-
         if window_choice is MenuRedirection.MENU and last_choice is not MenuRedirection.MENU \
                 and last_choice is not MenuRedirection.RANKING and last_choice is not MenuRedirection.LOAD:
             menu.load_and_play_music()
-
         if (last_choice == MenuRedirection.PLAY or last_choice == MenuRedirection.RESUME or last_choice is MenuRedirection.PAUSE) \
                 and window_choice is not MenuRedirection.PLAY and window_choice is not MenuRedirection.RESUME \
                 and window_choice is not MenuRedirection.PAUSE:
             ranking.save_ranking(snake.score())
+
         last_choice = window_choice
         pygame.display.update()
     pygame.quit()
