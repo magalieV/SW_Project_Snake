@@ -9,7 +9,7 @@ __author__ = "Magalie Vandenbriele"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __license__ = "GPL"
 __version__ = "1.0"
-__maintainer__ = "Magalie Vandenbriele"
+__maintainer__ = ["Magalie Vandenbriele", "Irama Chaouch"]
 __email__ = "magalie.vandenbriele@epitech.eu"
 
 BODY_PATH_HORIZONTAL = "game_module/assets/snake/body_horizontal.png"
@@ -27,7 +27,7 @@ TICK_SIZE = SPEED / SPEED
 class SnakeBody:
     body_part = []
 
-    def __init__(self, window, window_size, body_part_save=None):
+    def __init__(self, window, window_size, multi=None, body_part_save=None):
         self._window = window
         self._window_size = window_size
         self._sprite_size = 20
@@ -41,10 +41,18 @@ class SnakeBody:
         self._associate = {Movement.UP: Position.VERTICAL, Movement.DOWN: Position.VERTICAL,
                            Movement.LEFT: Position.HORIZONTAL, Movement.RIGHT: Position.HORIZONTAL}
         if body_part_save is None:
-            self.body_part = [Grill(Movement.UP,
-                                    (round(round(window_size[0] / self._sprite_size) / 2) * self._sprite_size),
-                                    (round(round(window_size[
-                                                     1] / self._sprite_size) / 2) * self._sprite_size) + self._sprite_size)]
+            if multi is None:
+                self.body_part = [Grill(Movement.UP,
+                                        (round(
+                                            round(window_size[0] / self._sprite_size) / 2) * self._sprite_size),
+                                        (round(round(window_size[1] / self._sprite_size) / 2) * self._sprite_size) + self._sprite_size)]
+            elif multi == 1:
+                self.body_part = [
+                    (Grill(Movement.DOWN, self._sprite_size, self._sprite_size))]
+            elif multi == 2:
+                self.body_part = [(Grill(Movement.UP, self._sprite_size * 80 -
+                                   self._sprite_size, self._sprite_size * 40 - (self._sprite_size * 2)))]
+
         else:
             self.body_part = body_part_save
 
@@ -54,9 +62,11 @@ class SnakeBody:
     def display(self):
         for element in self.body_part:
             if element.turn is not Turn.NONE:
-                self._window.blit(self._turn_sprite[element.turn], (element.x, element.y))
+                self._window.blit(
+                    self._turn_sprite[element.turn], (element.x, element.y))
             else:
-                self._window.blit(self._sprites[self._associate[element.movement]], (element.x, element.y))
+                self._window.blit(
+                    self._sprites[self._associate[element.movement]], (element.x, element.y))
 
     def move_corner(self, element, corners):
         if element.movement == Movement.UP:
