@@ -45,7 +45,7 @@ def solo_game(window_state, last_state, window, window_size, snake_game, save_ga
         if window_state is MenuRedirection.RESTART:
             snake_game = Snake(window, window_size)
             window_state = MenuRedirection.PLAY
-        clock.tick(12)
+        clock.tick(15)
         pygame.display.update()
 
     if (have_played is True and last_state == MenuRedirection.PLAY or last_state == MenuRedirection.RESUME or
@@ -70,32 +70,46 @@ def multi_game(window_state, last_state, window, window_size, snake_game, save_g
         if window_state is MenuRedirection.RESTART:
             snake_game = Snake(window, window_size, True)
             window_state = MenuRedirection.PLAY_MULTI
-        clock.tick(12)
+        clock.tick(15)
         pygame.display.update()
     return snake_game, window_state, last_state
 
 
-def end_game(window_game_over, window_state, last_state):
+def end_game(window_game_over, window_state, last_state, snake_game, bot_game):
     if window_state is MenuRedirection.OVER and last_state is not MenuRedirection.OVER:
         window_game_over.play_sound_effect()
-        window_game_over.set_score_text(snake.get_result_board())
+        if snake_game is not None:
+            window_game_over.set_score_text(snake_game.get_result_board())
+        else:
+            window_game_over.set_score_text(bot_game.get_score())
+    has_display = False
 
     while window_state is MenuRedirection.OVER:
+        has_display = True
         last_state = window_state
         window_state = window_game_over.run_game_over()
         pygame.display.update()
-    return window_state, last_state
+    if has_display:
+        return window_state, last_state, None, None
+    else:
+        return window_state, last_state, snake_game, bot_game
 
 
-def auto_play(snake_bot, window_state, last_state, pause_menu_multi):
+def auto_play(snake_bot, window_state, last_state, pause_menu_multi, window, window_size):
+    if window_state is MenuRedirection.BOT and last_state is not MenuRedirection.BOT and last_state \
+            is not MenuRedirection.LOAD and last_state is not MenuRedirection.RESUME:
+        snake_bot = BotSnake(window, window_size)
+        window_state = MenuRedirection.BOT
+
+    tick_value = 20
     while window_state is MenuRedirection.BOT or window_state is MenuRedirection.RESUME:
         last_state = window_state
-        window_state = snake_bot.run_snake_game_bot()
+        window_state, tick_value = snake_bot.run_snake_game_bot()
         window_state, last_state = pause_menu(pause_menu_multi, window_state, last_state, save_game, None)
         if window_state is MenuRedirection.RESTART:
             snake_bot = BotSnake(screen, window_size)
             window_state = MenuRedirection.BOT
-        clock.tick(15)
+        clock.tick(tick_value)
         pygame.display.update()
     return snake_bot, window_state, last_state
 
@@ -123,7 +137,7 @@ if __name__ == '__main__':
     menu_pause = Pause(screen, window_size)
     pause_menu_multi = Pause(screen, window_size, 200, [0, 1, 3])
     last_choice = MenuRedirection.MENU
-    bot_snake = BotSnake(screen, window_size)
+    bot_snake = None
 
     while not game_over:
         if window_choice is MenuRedirection.MENU:
@@ -139,8 +153,8 @@ if __name__ == '__main__':
 
         snake, window_choice, last_choice = solo_game(window_choice, last_choice, screen, window_size, snake, save_game, menu_pause, ranking)
         snake, window_choice, last_choice = multi_game(window_choice, last_choice, screen, window_size, snake, save_game, pause_menu_multi)
-        bot_snake, window_choice, last_choice = auto_play(bot_snake, window_choice, last_choice, pause_menu_multi)
-        window_choice, last_choice = end_game(game_over_window, window_choice, last_choice)
+        bot_snake, window_choice, last_choice = auto_play(bot_snake, window_choice, last_choice, pause_menu_multi, screen, window_size)
+        window_choice, last_choice, snake, bot_snake = end_game(game_over_window, window_choice, last_choice, snake, bot_snake)
 
         if window_choice is MenuRedirection.QUIT:
             game_over = True
