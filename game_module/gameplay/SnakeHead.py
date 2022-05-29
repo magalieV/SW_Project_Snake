@@ -22,6 +22,7 @@ SPEED = 20
 class SnakeHead:
     actual_head = None
     head_position = None
+    next_head_movement = []
 
     def __init__(self, window, window_size, multi=None, save_movement=None, save_head=None):
         self._heads = {Movement.UP: pygame.image.load(HEAD_UP).convert_alpha(),
@@ -31,7 +32,7 @@ class SnakeHead:
         self._sprite_size = 20
         self._window = window
         self._window_size = window_size
-        self._next_head_movement = []
+        self.next_head_movement = []
         if save_movement is None:
             if multi is None:
                 self.actual_head = Movement.UP
@@ -68,10 +69,10 @@ class SnakeHead:
         square_x = self.head_position[0] / self._sprite_size
         square_y = self.head_position[1] / self._sprite_size
         grill = None
-        if square_x.is_integer() and square_y.is_integer() and len(self._next_head_movement) > 0:
-            tmp = self._next_head_movement.pop(0)
-            while tmp == self.actual_head and len(self._next_head_movement) > 0:
-                tmp = self._next_head_movement.pop(0)
+        if square_x.is_integer() and square_y.is_integer() and len(self.next_head_movement) > 0:
+            tmp = self.next_head_movement.pop(0)
+            while tmp == self.actual_head and len(self.next_head_movement) > 0:
+                tmp = self.next_head_movement.pop(0)
             if tmp is not self.actual_head:
                 self.actual_head = tmp
                 grill = Grill(tmp, square_x, square_y)
@@ -87,46 +88,46 @@ class SnakeHead:
 
     def event_trigger_player_two(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_a and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.LEFT):
+            if event.key == pygame.K_a and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.LEFT):
                 if self.actual_head is not Movement.RIGHT:
-                    self._next_head_movement.append(Movement.LEFT)
+                    self.next_head_movement.append(Movement.LEFT)
                     return True
             elif event.key == pygame.K_d \
-                    and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.RIGHT):
+                    and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.RIGHT):
                 if self.actual_head is not Movement.LEFT:
-                    self._next_head_movement.append(Movement.RIGHT)
+                    self.next_head_movement.append(Movement.RIGHT)
                     return True
             elif event.key == pygame.K_w \
-                    and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.UP):
+                    and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.UP):
                 if self.actual_head is not Movement.DOWN:
-                    self._next_head_movement.append(Movement.UP)
+                    self.next_head_movement.append(Movement.UP)
                     return True
             elif event.key == pygame.K_s \
-                    and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.DOWN):
+                    and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.DOWN):
                 if self.actual_head is not Movement.UP:
-                    self._next_head_movement.append(Movement.DOWN)
+                    self.next_head_movement.append(Movement.DOWN)
                     return True
             return False
 
     def event_trigger(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.LEFT):
+            if event.key == pygame.K_LEFT and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.LEFT):
                 if self.actual_head is not Movement.RIGHT:
-                    self._next_head_movement.append(Movement.LEFT)
+                    self.next_head_movement.append(Movement.LEFT)
                     return True
             elif event.key == pygame.K_RIGHT \
-                    and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.RIGHT):
+                    and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.RIGHT):
                 if self.actual_head is not Movement.LEFT:
-                    self._next_head_movement.append(Movement.RIGHT)
+                    self.next_head_movement.append(Movement.RIGHT)
                     return True
             elif event.key == pygame.K_UP \
-                    and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.UP):
+                    and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.UP):
                 if self.actual_head is not Movement.DOWN:
-                    self._next_head_movement.append(Movement.UP)
+                    self.next_head_movement.append(Movement.UP)
                     return True
             elif event.key == pygame.K_DOWN \
-                    and (len(self._next_head_movement) == 0 or self._next_head_movement[0] != Movement.DOWN):
+                    and (len(self.next_head_movement) == 0 or self.next_head_movement[0] != Movement.DOWN):
                 if self.actual_head is not Movement.UP:
-                    self._next_head_movement.append(Movement.DOWN)
+                    self.next_head_movement.append(Movement.DOWN)
                     return True
             return False
