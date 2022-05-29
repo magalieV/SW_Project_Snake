@@ -34,7 +34,14 @@ class Snake:
     def __init__(self, window, window_size, multi=None, snake_head_save=None, snake_body_save=None, corner_save=None, apple_save=None):
         self._window = window
         self._loser = 1
+        self.corners = []
+        self.second_corners = []
         self._window_size = window_size
+        self.second_snake_head = None
+        self.second_snake_body = None
+        self.second_apple = None
+        self.multi = None
+        self.score_disp = None
         self.eat_apple = pygame.mixer.Sound("game_module/assets/sound/apple_sound.mp3")
         self.eat_apple.set_volume(1)
         self.turn_sound = pygame.mixer.Sound("game_module/assets/sound/turn_sound.mp3")
