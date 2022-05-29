@@ -73,13 +73,13 @@ class Snake:
             return str(len(self.snake_body.body_part) - 1)
         elif self._loser == 2:
             if len(sys.argv) < 2:
-                return "Player 1"
+                return "Winner: Player 1"
             else:
-                return sys.argv[1]
+                return "Winner: " + sys.argv[1]
         elif self._loser == 1:
             if len(sys.argv) < 3:
-                return "Player 2"
-            return sys.argv[2]
+                return "Winner: Player 2"
+            return "Winner: " + sys.argv[2]
 
     def score(self):
         return len(self.snake_body.body_part) - 1
@@ -124,6 +124,13 @@ class Snake:
                 return CollideType.BORDER
         return collide_type
 
+    def collide_heads(self):
+        element_rect = pygame.Rect(self.snake_head.head_position[0], self.snake_head.head_position[1], 20, 20)
+        rect_value = pygame.Rect(self.second_snake_head.head_position[0], self.second_snake_head.head_position[0], 20, 20)
+        if rect_value.colliderect(element_rect):
+            return True
+        return False
+
     def collide_two_player(self):
         if self.collide_apple_multi(self.apple, self.snake_head, self.snake_body, self.second_apple) is CollideType.BORDER\
                 or self.collide_apple_multi(self.second_apple, self.snake_head, self.snake_body, self.apple)\
@@ -134,6 +141,8 @@ class Snake:
                 or self.collide_apple_multi(self.second_apple, self.second_snake_head, self.second_snake_body, self.apple)\
                 is CollideType.BORDER:
             self._loser = 2
+            return CollideType.BORDER
+        if self.collide_heads():
             return CollideType.BORDER
         collide_type = CollideType.NONE
         for part in self.snake_body.body_part:
