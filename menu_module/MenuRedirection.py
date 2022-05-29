@@ -24,3 +24,4 @@ class MenuRedirection(Enum):
     NONE = 10
     PLAY_MULTI = 11
     RESTART_MULTI = 12
+    BOT = 13
