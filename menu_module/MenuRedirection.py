@@ -6,7 +6,7 @@ __author__ = "Pierre Ghyzel"
 __credits__ = ["Magalie Vandenbriele", "Pierre Ghyzel", "Irama Chaouch"]
 __license__ = "GPL"
 __version__ = "1.0"
-__maintainer__ = "Magalie Vandenbriele"
+__maintainer__ = ["Magalie Vandenbriele", "Irama Chaouch"]
 __email__ = "magalie.vandenbriele@epitech.eu"
 
 
@@ -22,3 +22,5 @@ class MenuRedirection(Enum):
     QUIT = 8
     OVER = 9
     NONE = 10
+    PLAY_MULTI = 11
+    RESTART_MULTI = 12

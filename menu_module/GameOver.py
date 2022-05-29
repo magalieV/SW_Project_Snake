@@ -45,8 +45,8 @@ class GameOver:
         self._rank_back.fill((0, 0, 0, 170))
         self._score = self.font_btn.render('0', False, (255, 40, 40))
 
-    def set_score(self, score):
-        self._score = self.font_btn.render(str(score), False, (255, 40, 40))
+    def set_score_text(self, text):
+        self._score = self.font_btn.render(text, False, (255, 40, 40))
 
     def play_sound_effect(self):
         self.sound_effect.play()
