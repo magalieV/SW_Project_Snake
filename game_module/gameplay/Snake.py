@@ -104,10 +104,13 @@ class Snake:
         self.snake_body.display()
 
     def event_trigger(self, evnt):
-        if self.snake_head.event_trigger(evnt):
-            self.turn_sound.play()
+        if self.multi is None:
+            if self.snake_head.event_trigger(evnt):
+                self.turn_sound.play()
         if self.multi is not None:
-            if self.second_snake_head.event_trigger_player_two(evnt):
+            if self.snake_head.event_trigger_player_two(evnt):
+                self.turn_sound.play()
+            if self.second_snake_head.event_trigger(evnt):
                 self.turn_sound.play()
 
     def collide_apple_multi(self, apple, snake_head, snake_body, second_apple):
