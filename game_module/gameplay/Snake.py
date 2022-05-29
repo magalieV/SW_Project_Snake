@@ -182,9 +182,9 @@ class Snake:
     def run_snake_game(self):
         for event in pygame.event.get():
             self.event_trigger(event)
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            if event.type == pygame.QUIT:
                 return MenuRedirection.QUIT
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return MenuRedirection.PAUSE
         self.update()
         if self.multi is None:

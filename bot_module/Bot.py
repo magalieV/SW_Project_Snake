@@ -164,7 +164,7 @@ class BotSnake:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return MenuRedirection.QUIT, final_tick
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return MenuRedirection.PAUSE, final_tick
         self.init_map()
         mvt = []

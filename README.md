@@ -2,7 +2,7 @@
 
 ▶️ __To move the snake__: use the arrow key.
 
-⏸ __To pause the game__: use the space key.
+⏸ __To pause the game__: use the escape key.
 
 <hr>
 
