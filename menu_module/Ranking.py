@@ -109,8 +109,12 @@ class Ranking:
         return self.event_trigger(mouse)
 
     def save_ranking(self, score):
+        index = 0
         if len(sys.argv) < 2:
             name = "Player"
+            while name in self.ranks:
+                index += 1
+                name = "Player" + str(index)
         else:
             name = sys.argv[1]
         if name in self.ranks and score > self.ranks[name]:
