@@ -33,7 +33,7 @@ class Snake:
 
     def __init__(self, window, window_size, multi=None, snake_head_save=None, snake_body_save=None, corner_save=None, apple_save=None):
         self._window = window
-        self._loser = 1
+        self._loser = -1
         self.corners = []
         self.second_corners = []
         self._window_size = window_size
@@ -87,6 +87,8 @@ class Snake:
             if len(sys.argv) < 3:
                 return "Winner: Player 2"
             return "Winner: " + sys.argv[2]
+        elif self._loser == 0:
+            return "Draw"
 
     def score(self):
         return len(self.snake_body.body_part) - 1
@@ -142,16 +144,27 @@ class Snake:
         return False
 
     def collide_two_player(self):
+        collide_type = CollideType.NONE
+        
         if self.collide_apple_multi(self.apple, self.snake_head, self.snake_body, self.second_apple) is CollideType.BORDER\
                 or self.collide_apple_multi(self.second_apple, self.snake_head, self.snake_body, self.apple)\
                 is CollideType.BORDER:
             self._loser = 1
-            return CollideType.BORDER
+            collide_type = CollideType.BORDER
+ 
         if self.collide_apple_multi(self.apple, self.second_snake_head, self.second_snake_body, self.second_apple) is CollideType.BORDER\
                 or self.collide_apple_multi(self.second_apple, self.second_snake_head, self.second_snake_body, self.apple)\
                 is CollideType.BORDER:
-            self._loser = 2
+            
+            if self._loser != -1:
+                self._loser = 0
+            else:
+                self._loser = 2
+            
             return CollideType.BORDER
+        if collide_type != CollideType.NONE:
+            return collide_type
+        
         if self.collide_heads():
             return CollideType.BORDER
         collide_type = CollideType.NONE
@@ -161,14 +174,19 @@ class Snake:
                 return CollideType.BORDER
             if part.collide(self.second_snake_head.head_position):
                 self._loser = 2
-                return CollideType.BORDER
+                collide_type = CollideType.BORDER
+                
         for part in self.second_snake_body.body_part:
             if part.collide(self.second_snake_head.head_position):
                 self._loser = 2
                 return CollideType.BORDER
             if part.collide(self.snake_head.head_position):
-                self._loser = 1
-                return CollideType.BORDER
+                if self._loser != -1:
+                    self._loser = 0
+                else:
+                    self._loser = 1
+                collide_type = CollideType.BORDER
+                
         return collide_type
 
     def update(self):
