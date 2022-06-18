@@ -48,7 +48,7 @@ class SnakeBody:
             elif multi == 1:
                 self.body_part = [(Grill(Movement.DOWN, self._sprite_size, self._sprite_size))]
             elif multi == 2:
-                self.body_part = [(Grill(Movement.UP, self._sprite_size * 80 - self._sprite_size, self._sprite_size * 40 - (self._sprite_size * 2)))]
+                self.body_part = [(Grill(Movement.UP, window_size[0] - (self._sprite_size * 2), window_size[1] - (self._sprite_size * 2)))]
 
         else:
             self.body_part = body_part_save
