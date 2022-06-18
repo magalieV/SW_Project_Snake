@@ -42,7 +42,7 @@ class SnakeHead:
                 self.head_position = (self._sprite_size, self._sprite_size * 2)
             elif multi == 2:
                 self.actual_head = Movement.UP
-                self.head_position = (self._sprite_size * 80 - self._sprite_size, self._sprite_size * 40 - (self._sprite_size * 3))
+                self.head_position = (window_size[0] - (self._sprite_size * 2), window_size[1] - (self._sprite_size * 3))
         else:
             self.actual_head = save_movement
             self.head_position = save_head
